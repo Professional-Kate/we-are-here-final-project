@@ -2,7 +2,7 @@
 name: "👥 User story"
 about: Create a new user story
 title: ""
-labels: enhancement
+labels: feature
 assignees: ""
 ---
 
