@@ -23,10 +23,3 @@ assignees: ""
 
 1.
 2.
-
-## Checklist:
-
-- [ ] I have defined the user story
-- [ ] I have defined some acceptance criteria
-- [ ] I have included any implementation notes
-- [ ] I have included all relevant links
