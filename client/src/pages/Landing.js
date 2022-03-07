@@ -10,7 +10,7 @@ const Landing = () => {
   const clickEvent = () => setIsAboutPage((isAboutPage) => !isAboutPage); // flip the boolean in the state
 
   return <article id="landing-parent" className="landing-page">
-    <h1 id="main-heading" className="main-heading underline underline-color-red">We are here</h1>
+    <h1 id="main-heading" className="main-heading underline underline-color-black">We are here</h1>
     <section className="card box-shadow">
       {isAboutPage ? <AboutList /> : <SignInList />}
       </section>

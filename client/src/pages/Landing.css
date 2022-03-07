@@ -58,6 +58,7 @@ ul {
 .main-heading {
   font-size: var(--larger-font-size);
   margin-bottom: var(--larger-gap);
+  color: var(--cyf-red);
 }
 
 #root {
