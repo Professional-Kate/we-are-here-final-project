@@ -1,0 +1,62 @@
+/* Simple CSS for the landing page */
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+:root * {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
+
+  --cyf-red: hsl(0, 83%, 60%);
+  --cyf-hover-red: hsl(0, 87%, 45%);
+  font-family: "Raleway";
+}
+
+ul {
+  list-style: none;
+}
+
+.main-heading {
+  font-size: 46.8px;
+  text-decoration: underline;
+  text-decoration-color: var(--cyf-red);
+  margin-bottom: 30px;
+}
+
+.box-shadow {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+.landing-page {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.card {
+  width: 300px;
+}
+
+.card-list > li {
+  margin: 30px 0;
+}
+
+.card-heading {
+  text-decoration: underline;
+  text-decoration-color: var(--cyf-red);
+  font-size: 21.84px;
+}
+
+.card-button {
+  padding: 10px 40px;
+  background-color: var(--cyf-red);
+  color: white;
+}
+
+.card-button:hover {
+  background-color: var(--cyf-hover-red);
+}
