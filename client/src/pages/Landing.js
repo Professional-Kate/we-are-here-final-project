@@ -1,16 +1,22 @@
+import { useState } from "react";
+import AboutList from "../Components/AboutList";
+import SignInList from "../Components/SignInList";
+
 import "./Landing.css";
 
 const Landing = () => {
+  const [isAboutPage, setIsAboutPage] = useState(false);
+
+  const clickEvent = () => setIsAboutPage((isAboutPage) => !isAboutPage); // flip the boolean in the state
+
   return <article id="landing-parent" className="landing-page">
-    <h1 id="main-heading" className="main-heading">We are here</h1>
+    <h1 id="main-heading" className="main-heading underline underline-color-red">We are here</h1>
     <section className="card box-shadow">
-        <ul id="card-list" className="card-list">
-          <li><h2 id="new-user-heading" className="card-heading">Join We Are Here</h2></li>
-          <li><button id="sign-up-button" className="card-button box-shadow">Sign Up</button></li>
-          <li><h2 id="old-user-heading" className="card-heading">Already have an account?</h2></li>
-          <li><button id="sign-in-button" className="card-button box-shadow">Sign In</button></li>
-        </ul>
+      {isAboutPage ? <AboutList /> : <SignInList />}
       </section>
+          <button id="about-header" className="about-header card-button box-shadow" onClick={clickEvent}>
+            <h2>{isAboutPage ? "Go back..." : "About this page"}</h2>
+            </button>
     </article>;
 };
 

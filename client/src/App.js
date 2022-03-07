@@ -9,7 +9,7 @@ const App = () => (
 		<Route path="/" element={<Home />} />
 		{/* if the user isn't already logged in then send them to the /Landing page */}
 		<Route path="/landing" element={<Landing />} />
-		<Route path="/about/this/site" element={<About />} />
+		<Route path="/about" element={<About />} />
 	</Routes>
 );
 
