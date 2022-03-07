@@ -15,7 +15,7 @@ const Landing = () => {
       {isAboutPage ? <AboutList /> : <SignInList />}
       </section>
           <button id="about-header" className="about-header card-button box-shadow" onClick={clickEvent}>
-            <h2>{isAboutPage ? "Go back..." : "About this page"}</h2>
+            <h2>{isAboutPage ? "Go back..." : "About this page..."}</h2>
             </button>
     </article>;
 };

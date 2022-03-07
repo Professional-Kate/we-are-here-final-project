@@ -4,12 +4,14 @@ const SignInList = () => {
     <h2 id="new-user-heading" className="card-heading underline underline-color-red">Join We Are Here</h2>
   </li>
   <li>
+    {/* When clicked will send users to the Sign Up endpoint */}
     <button id="sign-up-button" className="card-button box-shadow">Sign Up</button>
     </li>
   <li>
     <h2 id="old-user-heading" className="card-heading underline underline-color-red">Already have an account?</h2>
   </li>
   <li>
+    {/* When clicked will send users to the Sign In endpoint */}
     <button id="sign-in-button" className="card-button box-shadow">Sign In</button>
   </li>
 </ul>;

@@ -10,11 +10,23 @@
   --cyf-red: hsl(0, 83%, 60%);
   --cyf-hover-red: hsl(0, 87%, 45%);
   font-family: "Raleway", sans-serif;
+
+  /* font-size */
+  --normal-font-size: calc(var(--large-font-size) / 2);
+  --large-font-size: 32px;
+  --larger-font-size: calc(var(--large-font-size) * 1.5);
+
+  /* spacing */
+  --normal-gap: 12px;
+  --large-gap: calc(var(--normal-gap) * 2);
+  --larger-gap: calc(var(--normal-gap) * 3);
 }
 
 ul {
   list-style: none;
 }
+
+/* ----- WHOLE PAGE STYLE THINGS ----- */
 
 .cyf-red-color {
   color: var(--cyf-red);
@@ -37,17 +49,26 @@ ul {
 }
 
 .normal-text {
-  font-size: 20px;
+  font-size: var(--normal-font-size);
 }
 
+/* ----- SPECIFIC THINGS ----- */
+
+/* h1 */
 .main-heading {
-  font-size: 46.8px;
-  line-height: 75.35px;
+  font-size: var(--larger-font-size);
+  margin-bottom: var(--larger-gap);
 }
 
-.landing-page {
-  height: 100vh;
+#root {
   width: 100vw;
+  height: 100vh;
+}
+
+
+/* whole page things */
+.landing-page {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,30 +76,77 @@ ul {
   text-align: center;
 }
 
+/* ----- CARD ----- */
 .card {
-  height: 300px;
+  height: 350px;
   width: 300px;
+  padding: var(--normal-gap);
 }
 
 .card-list > li {
-  margin: 30px 0;
+  margin: var(--large-gap) 0;
 }
 
 .card-heading {
-  font-size: 21.84px;
+  font-size: var(--large-font-size);
 }
 
 .card-button {
-  padding: 10px 40px;
+  padding: var(--normal-gap) var(--larger-gap);
   background-color: var(--cyf-red);
   color: white;
   cursor: pointer;
+  font-size: var(--normal-font-size);
 }
 
 .card-button:hover {
   background-color: var(--cyf-hover-red);
 }
 
+/* ----- BUTTON BELOW THE CARD ----- */
+
 .about-header {
-  margin-top: 40px;
+  margin-top: var(--larger-gap);
+}
+
+
+/* ----- BREAKPOINTS ----- */
+
+/* 800px */
+@media only screen and (min-width: 800px) {
+
+  :root * {
+      /* font-size */
+  --normal-font-size: calc(var(--large-font-size) / 2);
+  --large-font-size: 40px;
+  --larger-font-size: calc(var(--large-font-size) * 1.5);
+
+  /* spacing */
+  --normal-gap: 15px;
+  --large-gap: calc(var(--normal-gap) * 2);
+  --larger-gap: calc(var(--normal-gap) * 3);
+  }
+
+  .main-heading {
+    margin-bottom: var(--large-font-size);
+    font-size: var(--larger-font-size);
+  }
+
+  .card {
+    width: 500px;
+    height: 500px;  
+  }
+
+  .card-list > li {
+    margin: var(--larger-font-size) 0;
+  }
+
+  .card-heading {
+    font-size: var(--large-font-size);
+  }
+
+  .card-button {
+    padding: var(--normal-gap) var(--larger-gap);
+    font-size: var(--normal-font-size);
+  }
 }
