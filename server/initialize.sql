@@ -1,4 +1,4 @@
-PREPARE initilize_database AS
+PREPARE initialize_database AS
   CREATE TABLE users (
     id SERIAL PRIMARY KEY, 
     is_volunteer BOOLEAN NOT NULL,
@@ -17,4 +17,4 @@ PREPARE initilize_database AS
     last_name VARCHAR(30) NOT NULL,
     region VARCHAR(20) NOT NULL
   );
-EXECUTE initilize_database;
+EXECUTE initialize_database;
