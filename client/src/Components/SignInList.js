@@ -5,6 +5,7 @@ const SignInList = () => {
   </li>
   <li>
     {/* When clicked will send users to the Sign Up endpoint */}
+    {/* can do both of these buttons with a Link element from ReactDOM */}
     <button id="sign-up-button" className="card-button box-shadow">Sign Up</button>
     </li>
   <li>

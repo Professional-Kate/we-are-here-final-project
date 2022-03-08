@@ -61,6 +61,7 @@ ul {
   color: var(--cyf-red);
 }
 
+/* ----- :ROOT : ENSURE OUR CONTENT TAKES THE WHOLE SCREEN ----- */
 #root {
   width: 100vw;
   height: 100vh;
@@ -132,6 +133,8 @@ ul {
     margin-bottom: var(--large-font-size);
     font-size: var(--larger-font-size);
   }
+
+  /* ----- CARD ----- */
 
   .card {
     width: 500px;
