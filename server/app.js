@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import morgan from "morgan";
 import path from "path";
 
@@ -9,6 +10,8 @@ import {
 	logErrors,
 	pushStateRouting,
 } from "./middleware";
+
+console.log (process.env);
 
 const apiRoot = "/api";
 const staticDir = path.join(__dirname, "static");
