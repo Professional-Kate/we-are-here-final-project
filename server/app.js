@@ -15,6 +15,7 @@ const staticDir = path.join(__dirname, "static");
 
 const app = express();
 
+
 app.use(express.json());
 app.use(configuredHelmet());
 app.use(morgan("dev"));
