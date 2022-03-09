@@ -1,3 +1,7 @@
+-- SQL file for making a fresh database with 6 tables
+
+-- drop all tables to completely reset the database
+
 DROP TABLE if exists regions CASCADE;
 DROP TABLE if exists cohorts CASCADE;
 DROP TABLE if exists users CASCADE;
@@ -13,7 +17,7 @@ CREATE TABLE regions(
 CREATE TABLE cohorts (
   id        SERIAL PRIMARY KEY,
   number    SMALLINT NOT NULL,
-  region_id INTEGER REFERENCES regions(id)
+  region_id INTEGER REFERENCES regions(id) NOT NULL
 );
 
 CREATE TABLE users (
@@ -24,7 +28,7 @@ CREATE TABLE users (
   pass_salt    TEXT NOT NULL,
   user_name    VARCHAR(15) NOT NULL,
   is_volunteer BOOLEAN NOT NULL,
-  cohort_id    INTEGER REFERENCES cohorts(id)
+  cohort_id    INTEGER REFERENCES cohorts(id) NOT NULL
 );
 
 CREATE TABLE modules (
@@ -35,9 +39,10 @@ CREATE TABLE modules (
 CREATE TABLE weeks (
   id        SERIAL PRIMARY KEY,
   week_date DATE NOT NULL,
-  module_id INTEGER REFERENCES modules(id)
+  module_id INTEGER REFERENCES modules(id) NOT NULL
 );
 
+-- I made these flags not required to make the backend code a bit easier
 CREATE TABLE volunteer_flags (
   id                SERIAL PRIMARY KEY, 
   no_webcam         BOOLEAN,
@@ -46,6 +51,6 @@ CREATE TABLE volunteer_flags (
   left_early        BOOLEAN, 
   other_comments    TEXT,
   clockin_time      TIMESTAMP,
-  user_id           INTEGER REFERENCES users(id),
-  week_id           INTEGER REFERENCES weeks(id)
+  user_id           INTEGER REFERENCES users(id) NOT NULL,
+  week_id           INTEGER REFERENCES weeks(id) NOT NULL
 );
