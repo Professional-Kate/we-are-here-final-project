@@ -15,21 +15,23 @@ CREATE TABLE regions(
 );
 
 CREATE TABLE cohorts (
-  id        SERIAL PRIMARY KEY,
-  number    SMALLINT NOT NULL,
-  region_id INTEGER REFERENCES regions(id) NOT NULL
+  id                     SERIAL PRIMARY KEY,
+  number                 SMALLINT NOT NULL,
+  region_id              INT NOT NULL,
+  FOREIGN KEY(region_id) REFERENCES regions(id)
 );
 
 CREATE TABLE users (
-  id           SERIAL PRIMARY KEY,
-  first_name   VARCHAR(20) NOT NULL,
-  last_name    VARCHAR(20) NOT NULL, 
-  pass_hash    TEXT NOT NULL,
-  pass_salt    TEXT NOT NULL,
-  user_name    VARCHAR(15) NOT NULL,
-  is_volunteer BOOLEAN NOT NULL,
-  cohort_id    INTEGER REFERENCES cohorts(id) NOT NULL
-);
+  id                     SERIAL PRIMARY KEY,
+  first_name             VARCHAR(20) NOT NULL,
+  last_name              VARCHAR(20) NOT NULL, 
+  pass_hash              TEXT NOT NULL,
+  pass_salt              TEXT NOT NULL,
+  user_name              VARCHAR(15) NOT NULL,
+  is_volunteer           BOOLEAN NOT NULL,
+  cohort_id              INT NOT NULL,
+  FOREIGN KEY(cohort_id) REFERENCES cohorts(id)
+);             
 
 CREATE TABLE modules (
   id   SERIAL PRIMARY KEY,
@@ -37,20 +39,23 @@ CREATE TABLE modules (
 );
 
 CREATE TABLE weeks (
-  id        SERIAL PRIMARY KEY,
-  week_date DATE NOT NULL,
-  module_id INTEGER REFERENCES modules(id) NOT NULL
+  id                     SERIAL PRIMARY KEY,
+  week_date              DATE NOT NULL,
+  module_id              INT NOT NULL,
+  FOREIGN KEY(module_id) REFERENCES modules(id)
 );
 
 -- I made these flags not required to make the backend code a bit easier
 CREATE TABLE volunteer_flags (
-  id                SERIAL PRIMARY KEY, 
-  no_webcam         BOOLEAN,
-  low_participation BOOLEAN,
-  absent            BOOLEAN, 
-  left_early        BOOLEAN, 
-  other_comments    TEXT,
-  clockin_time      TIMESTAMP,
-  user_id           INTEGER REFERENCES users(id) NOT NULL,
-  week_id           INTEGER REFERENCES weeks(id) NOT NULL
+  id                   SERIAL PRIMARY KEY, 
+  no_webcam            BOOLEAN,
+  low_participation    BOOLEAN,
+  absent               BOOLEAN, 
+  left_early           BOOLEAN, 
+  other_comments       TEXT,
+  clockin_time         TIMESTAMP,
+  user_id              INT NOT NULL,
+  week_id              INT NOT NULL,
+  FOREIGN KEY(user_id) REFERENCES users(id),
+  FOREIGN KEY(week_id) REFERENCES weeks(id)
 );
