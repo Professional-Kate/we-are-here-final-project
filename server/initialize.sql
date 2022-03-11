@@ -1,7 +1,6 @@
 -- SQL file for making a fresh database with 6 tables
 
 -- drop all tables to completely reset the database
-
 DROP TABLE if exists regions CASCADE;
 DROP TABLE if exists cohorts CASCADE;
 DROP TABLE if exists users CASCADE;
@@ -29,7 +28,7 @@ CREATE TABLE users (
   pass_salt              TEXT NOT NULL,
   user_name              VARCHAR(15) NOT NULL,
   is_volunteer           BOOLEAN NOT NULL,
-  cohort_id              INT NOT NULL,
+  cohort_id              INT,
   FOREIGN KEY(cohort_id) REFERENCES cohorts(id)
 );             
 
