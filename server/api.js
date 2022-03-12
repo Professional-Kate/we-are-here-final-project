@@ -9,7 +9,7 @@ router.get("/users", (req, res) => {
 	res.json(users);
 });
 
-router.post("/users", async (req, res) => {
+router.post("/signup", async (req, res) => {
 	try {
 		//this hides the password
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
