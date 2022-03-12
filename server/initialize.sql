@@ -29,7 +29,13 @@ CREATE TABLE users (
   user_name              VARCHAR(15) NOT NULL,
   is_volunteer           BOOLEAN NOT NULL,
   cohort_id              INT,
-  FOREIGN KEY(cohort_id) REFERENCES cohorts(id)
+  FOREIGN KEY(cohort_id) REFERENCES cohorts(id),
+
+  -- if statement checking if is_volunteer is false then add NOT NULL to cohort_id column 
+  -- this means that if a volunteer signs up (is_volunteer = true) they don't need to provide a cohort_id 
+  -- if a trainee signs up (is_volunteer = false) they will HAVE to provide a cohort_id
+  CONSTRAINT check_volunteer 
+    CHECK ( (is_volunteer) OR (cohort_id IS NOT NULL))
 );             
 
 CREATE TABLE modules (
