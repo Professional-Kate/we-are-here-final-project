@@ -25,7 +25,6 @@ CREATE TABLE users (
   first_name             VARCHAR(20) NOT NULL,
   last_name              VARCHAR(20) NOT NULL, 
   pass_hash              TEXT NOT NULL,
-  pass_salt              TEXT NOT NULL,
   user_name              VARCHAR(15) NOT NULL,
   is_volunteer           BOOLEAN NOT NULL,
   cohort_id              INT,
@@ -46,6 +45,8 @@ CREATE TABLE modules (
 CREATE TABLE weeks (
   id                     SERIAL PRIMARY KEY,
   week_date              DATE NOT NULL,
+  start_time             TIMESTAMP NOT NULL,
+  end_time               TIMESTAMP NOT NULL,
   module_id              INT NOT NULL,
   FOREIGN KEY(module_id) REFERENCES modules(id)
 );
@@ -53,10 +54,10 @@ CREATE TABLE weeks (
 -- I made these flags not required to make the backend code a bit easier
 CREATE TABLE volunteer_flags (
   id                   SERIAL PRIMARY KEY, 
-  no_webcam            BOOLEAN,
-  low_participation    BOOLEAN,
-  absent               BOOLEAN, 
-  left_early           BOOLEAN, 
+  no_webcam            BOOLEAN DEFAULT FALSE NOT NULL,
+  low_participation    BOOLEAN DEFAULT FALSE NOT NULL,
+  absent               BOOLEAN DEFAULT FALSE NOT NULL, 
+  left_early           BOOLEAN DEFAULT FALSE NOT NULL, 
   other_comments       TEXT,
   clockin_time         TIMESTAMP,
   user_id              INT NOT NULL,
