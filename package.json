@@ -68,7 +68,10 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.17.0",
+ tenzin-userCreation
 		"bcrypt": "^5.0.1",
+		"dotenv": "^16.0.0",
+ main
 		"express": "^4.17.2",
 		"helmet": "^5.0.2",
 		"morgan": "^1.10.0",
