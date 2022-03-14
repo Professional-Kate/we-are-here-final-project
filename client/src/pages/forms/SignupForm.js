@@ -1,27 +1,83 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./Form.css";
 import SignupFormForVolunteer from "./SignupFormForVolunteers";
 
+function SignupForm() {
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const initialDetails = {
+		Name: "",
+		Class: "",
+		Username: "",
+		Password: "",
+		ConfirmPassword: "",
+	};
+	const [details, setDetails] = useState(initialDetails);
+	const [errors, setErrors] = useState({});
+	const [submit, setSubmit] = useState(false);
 
-
-function SignupForm({ signUp }) {
-	const [details, setDetails] = useState({ Name: "", Username: "" });
-	function submitHandler(submitButton) {
-		submitButton.preventDefault();
-		signUp(details);
+	function submitHandler(e) {
+		e.preventDefault();
+		setErrors(validate(details));
+		setSubmit(true);
 	}
+	useEffect(() => {
+		console.log("errors", errors);
+		if (Object.keys(errors).length === 0 && submit) {
+			setDetails(initialDetails);
+			console.log("details entered:", details);
+		}
+	}, [details, errors, initialDetails, submit]);
 
+	const validate = (details) => {
+		const errors = {};
+		const userNameRegex = /^[a-z0-9]+(?:[ _.-][a-z0-9]+)*$/;
+
+
+		if (!details.Name) {
+			errors.Name = "Name is required";
+		} else if (details.Name.length < 3) {
+			errors.Name = "Please enter your full name";
+		}
+		if (!details.Class) {
+			errors.Class = "Class is required";
+		} else if (details.Class.length < 3 || details.Class.length > 7) {
+			errors.Class = "Please enter the correct Class. i.e: WM3, NW4";
+		}
+		if (!details.Username) {
+			errors.Username = "Username is required";
+		} else if (
+			details.Username.length < 3 ||
+			!userNameRegex.test(details.Username)
+		) {
+			errors.Username = "Required format: word, word-sep-word";
+		}
+		if (!details.Password) {
+			errors.Password = "Password is required";
+		} else if (details.Password.length < 3) {
+			errors.Password = "Password is too short";
+		}
+		if (details.ConfirmPassword !== details.Password) {
+			errors.ConfirmPassword = "Passwords do not match";
+		}
+
+		return errors;
+	};
 	return (
 		<section className="signup__forms">
 			<div className="trainee__form">
+
+				{Object.keys(errors).length === 0 && submit ? (
+					<div className="ui msg success">Signed Up Successfully</div>
+				) : (
+					""
+				)}
 				<form onSubmit={submitHandler}>
 					<div className="form-inner">
 						<h2>Sign Up Page</h2>
 						<h3>Please enter your details as a trainee</h3>
-						{/* errors will come here */}
-						{/* {error !== "" ? <div className="error">{error}</div> : ""} */}
+
 						<div className="form-group">
 							<label htmlFor="trainee_name">Name:</label>
 							<input
@@ -34,7 +90,7 @@ function SignupForm({ signUp }) {
 								value={details.Name}
 							/>
 						</div>
-
+						<p className="form__error">{errors.Name}</p>
 						<div className="form-group">
 							<label htmlFor="trainee_name">Class:</label>
 							<input
@@ -47,7 +103,7 @@ function SignupForm({ signUp }) {
 								value={details.Class}
 							/>
 						</div>
-
+						<p className="form__error">{errors.Class}</p>
 						<div className="form-group">
 							<label htmlFor="trainee_Username">Username:</label>
 							<input
@@ -60,7 +116,7 @@ function SignupForm({ signUp }) {
 								value={details.Username}
 							/>
 						</div>
-
+						<p className="form__error">{errors.Username}</p>
 						<div className="form-group">
 							<label htmlFor="trainee_name">Password:</label>
 							<input
@@ -73,7 +129,7 @@ function SignupForm({ signUp }) {
 								value={details.Password}
 							/>
 						</div>
-
+						<p className="form__error">{errors.Password}</p>
 						<div className="form-group">
 							<label htmlFor="trainee_name">Confirm Password:</label>
 							<input
@@ -86,7 +142,7 @@ function SignupForm({ signUp }) {
 								value={details.ConfirmPassword}
 							/>
 						</div>
-
+						<p className="form__error">{errors.ConfirmPassword}</p>
 						<input
 							type="submit"
 							onClick={submitHandler}

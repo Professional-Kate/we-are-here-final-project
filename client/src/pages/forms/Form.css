@@ -107,3 +107,6 @@ form {
   margin-top: 100px;
 }
 
+.form__error{
+  color: red;
+}
