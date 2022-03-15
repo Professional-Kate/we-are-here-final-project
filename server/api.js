@@ -18,7 +18,6 @@ router.post("/signup", async (req, res) => {
 			username: req.body.username,
 			cohortId: req.body.cohortId,
 			password: hashedPassword,
-			isVolunteer: req.body.isVolunteer,
 		};
 		//checking if username already exist
 		pool
@@ -36,10 +35,10 @@ router.post("/signup", async (req, res) => {
 					} else if (req.body.password.length < 6 || newUser.username.length < 6) {
 						res.status(400).send("Password or username must be of 6 or more characters!");
 						//ensuring all fields are completed
-					} else if (newUser.firstName && newUser.lastName && newUser.cohortId && newUser.isVolunteer !== "") {
-						const query = "INSERT INTO users (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) VALUES ($1, $2, $3, $4, $5, $6)";
+					} else if (newUser.firstName && newUser.lastName && newUser.cohortId) {
+						const query = "INSERT INTO users (first_name, last_name, pass_hash, user_name, cohort_id) VALUES ($1, $2, $3, $4, $6)";
 						pool
-							.query(query, [newUser.firstName, newUser.lastName, newUser.password, newUser.username, newUser.isVolunteer, newUser.cohortId])
+							.query(query, [newUser.firstName, newUser.lastName, newUser.password, newUser.username, newUser.cohortId])
 							.then(() => res.status(200).send("User created successfully!"))
 							.catch((error) => {
 								console.error(error);
