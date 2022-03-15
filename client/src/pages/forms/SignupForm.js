@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import "./Form.css";
-import SignupFormForVolunteer from "./SignupFormForVolunteers";
+
 
 function SignupForm() {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -153,7 +153,7 @@ function SignupForm() {
 				</form>
 			</div>
 			<div className="volunteer__form">
-				<SignupFormForVolunteer />
+
 			</div>
 		</section>
 	);

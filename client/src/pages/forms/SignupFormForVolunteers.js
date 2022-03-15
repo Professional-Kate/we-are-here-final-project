@@ -57,7 +57,7 @@ function SignupFormForVolunteer() {
 	};
 
 	return (
-		<div className="vlonuteer__form">
+		<div className="volunteer__form">
 
 			{Object.keys(errors).length === 0 && submit ? (
 				<div className="ui msg success">Signed Up Successfully</div>
