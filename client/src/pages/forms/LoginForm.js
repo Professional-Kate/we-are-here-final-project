@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { validate } from "webpack";
-// import { Link } from "react-router-dom";
 import "./Form.css";
 
 function LoginForm() {

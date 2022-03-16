@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 import "./Form.css";
 
-
 function SignupForm() {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const initialDetails = {
@@ -33,7 +32,6 @@ function SignupForm() {
 	const validate = (details) => {
 		const errors = {};
 		const userNameRegex = /^[a-z0-9]+(?:[ _.-][a-z0-9]+)*$/;
-
 
 		if (!details.Name) {
 			errors.Name = "Name is required";
@@ -67,7 +65,6 @@ function SignupForm() {
 	return (
 		<section className="signup__forms">
 			<div className="trainee__form">
-
 				{Object.keys(errors).length === 0 && submit ? (
 					<div className="ui msg success">Signed Up Successfully</div>
 				) : (
@@ -93,15 +90,12 @@ function SignupForm() {
 						<p className="form__error">{errors.Name}</p>
 						<div className="form-group">
 							<label htmlFor="trainee_name">Class:</label>
-							<input
-								type="text"
-								name="trainee_class"
-								id="trainee_class"
-								onChange={(e) =>
-									setDetails({ ...details, Class: e.target.value })
-								}
-								value={details.Class}
-							/>
+							<select>
+								<option className="traineeClass">Class:</option>
+								<option value="WM1">WM1</option>
+								<option value="WM1">WM2</option>
+								<option value="WM1">WM3</option>
+							</select>
 						</div>
 						<p className="form__error">{errors.Class}</p>
 						<div className="form-group">
@@ -152,9 +146,7 @@ function SignupForm() {
 					</div>
 				</form>
 			</div>
-			<div className="volunteer__form">
-
-			</div>
+			<div className="volunteer__form"></div>
 		</section>
 	);
 }
