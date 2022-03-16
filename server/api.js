@@ -8,7 +8,7 @@ router.get("/users", (req, res) => {
 	res.json("hello world");
 });
 
-router.post("/signup", async (req, res) => {
+router.post("/signup/trainee", async (req, res) => {
 	try {
 		//this hides the password
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -17,7 +17,7 @@ router.post("/signup", async (req, res) => {
 			lastName: req.body.lastName,
 			username: req.body.username,
 			password: hashedPassword,
-			isVolunteer: true,
+			isVolunteer: false,
 		};
 		//checking if username already exist
 		pool
