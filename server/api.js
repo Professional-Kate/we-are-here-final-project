@@ -16,8 +16,8 @@ router.post("/signup", async (req, res) => {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			username: req.body.username,
-			cohortId: req.body.cohortId,
 			password: hashedPassword,
+			isVolunteer: true,
 		};
 		//checking if username already exist
 		pool
@@ -25,29 +25,21 @@ router.post("/signup", async (req, res) => {
 		.then((result) => {
 			if (result.rows.length > 0) {
 				res.status(400).send("Username already exist!");
+			//ensuring password and username length is 6 or more characters
+			} else if (req.body.password.length < 6 || newUser.username.length < 6) {
+				res.status(400).send("Password or username must be of 6 or more characters!");
+				//ensuring all fields are completed
+			} else if (newUser.firstName && newUser.lastName) {
+				const query = "INSERT INTO users (first_name, last_name, pass_hash, user_name, is_volunteer) VALUES ($1, $2, $3, $4, $5)";
+				pool
+					.query(query, [newUser.firstName, newUser.lastName, newUser.password, newUser.username, newUser.isVolunteer])
+					.then(() => res.status(200).send("User created successfully!"))
+					.catch((error) => {
+						console.error(error);
+						res.status(500).json(error);
+					});
 			} else {
-				//Checking if cohort ID exist
-				pool.query("SELECT id FROM cohorts WHERE id=$1", [newUser.cohortId])
-				.then((result1) => {
-					if (result1.rows.length < 1) {
-						res.status(400).send("Cohort ID doesn't exist");
-					//ensuring password and username length is 6 or more characters
-					} else if (req.body.password.length < 6 || newUser.username.length < 6) {
-						res.status(400).send("Password or username must be of 6 or more characters!");
-						//ensuring all fields are completed
-					} else if (newUser.firstName && newUser.lastName && newUser.cohortId) {
-						const query = "INSERT INTO users (first_name, last_name, pass_hash, user_name, cohort_id) VALUES ($1, $2, $3, $4, $6)";
-						pool
-							.query(query, [newUser.firstName, newUser.lastName, newUser.password, newUser.username, newUser.cohortId])
-							.then(() => res.status(200).send("User created successfully!"))
-							.catch((error) => {
-								console.error(error);
-								res.status(500).json(error);
-							});
-					} else {
-						res.status(400).send("One or more incomplete field(s)");
-					}
-				});
+				res.status(400).send("Name field(s) incomplete");
 			}
 		});
 	} catch {
