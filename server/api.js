@@ -48,5 +48,55 @@ router.post("/signup", async (req, res) => {
 	}
 });
 
+router.post("/login", async (req, res) => {
+	const username = req.body.username;
+	let user = [];
+	pool
+		.query("SELECT * FROM users WHERE user_name=$1", [username])
+		.then((result) => {
+			if (result.rows.length < 0) {
+				res.status(403).send("Username doesn't exist");
+			} else {
+				try {
+					if (bcrypt.compare(req.body.password, result.rows[0].hash_pass)) {
+						user.push(result.rows[0]);
+						res.status(200).send("Logged in");
+					} else {
+						res.status(403).send("Incorrect password!");
+					}
+				} catch {
+					res.status(500).send("Error");
+				}
+			}
+		});
+	jwt.sign({ user }, "secretKey", { expiresIn: "10min" }, (err, token) => {
+		res.json({
+			token,
+		});
+	});
+});
 
+router.post("/iamhere", verifyToken, (req, res) => {
+	jwt.verify(req.token, "secretKey", (err, authData) => {
+		if (err) {
+			res.sendStatus(403);
+		} else {
+			res.json({
+				msg: "Presence recorded",
+				authData,
+			});
+		}
+	});
+});
+
+const verifyToken = (req, res, next) => {
+	const bearerHeader = req.headers["authorization"];
+	if (typeof bearerHeader !== "undefined") {
+		const bearerToken = bearerHeader.split(" ")[1];
+		req.token = bearerToken;
+		next();
+	} else {
+		res.sendStatus(403);
+	}
+};
 export default router;
