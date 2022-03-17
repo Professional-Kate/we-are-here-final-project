@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import "./Form.css";
 
-function SignupForm() {
+function SignupForm({ isVolunteer }) {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const initialDetails = {
 		Name: "",
@@ -38,10 +38,8 @@ function SignupForm() {
 		} else if (details.Name.length < 3) {
 			errors.Name = "Please enter your full name";
 		}
-		if (!details.Class) {
+		if (!details.Class && isVolunteer === false) {
 			errors.Class = "Class is required";
-		} else if (details.Class.length < 3 || details.Class.length > 7) {
-			errors.Class = "Please enter the correct Class. i.e: WM3, NW4";
 		}
 		if (!details.Username) {
 			errors.Username = "Username is required";
@@ -73,7 +71,7 @@ function SignupForm() {
 				<form onSubmit={submitHandler}>
 					<div className="form-inner">
 						<h2>Sign Up Page</h2>
-						<h3>Please enter your details as a trainee</h3>
+						<h3>Please enter your details as a {isVolunteer ? "volunteer": "trainee"}</h3>
 
 						<div className="form-group">
 							<label htmlFor="trainee_name">Name:</label>
@@ -88,15 +86,19 @@ function SignupForm() {
 							/>
 						</div>
 						<p className="form__error">{errors.Name}</p>
-						<div className="form-group">
-							<label htmlFor="trainee_name">Class:</label>
-							<select>
-								<option className="traineeClass">Class:</option>
-								<option value="WM1">WM1</option>
-								<option value="WM1">WM2</option>
-								<option value="WM1">WM3</option>
-							</select>
-						</div>
+
+						{isVolunteer ? null : (
+							<div className="form-group">
+								<label htmlFor="trainee_name">Class:</label>
+								<select>
+									<option className="traineeClass">Class:</option>
+									<option value="WM1">WM1</option>
+									<option value="WM1">WM2</option>
+									<option value="WM1">WM3</option>
+								</select>
+							</div>
+						)}
+
 						<p className="form__error">{errors.Class}</p>
 						<div className="form-group">
 							<label htmlFor="trainee_Username">Username:</label>
