@@ -1,5 +1,6 @@
 import { Router } from "express";
 import pool from "./db";
+const jwt = require("jsonwebtoken");
 
 const router = Router();
 const bcrypt = require("bcrypt");
