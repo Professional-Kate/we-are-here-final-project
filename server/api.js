@@ -17,7 +17,7 @@ router.get("/users", async (req, res) => {
 });
 
 
-router.get("/users/cohorts", async (req, res) => {
+router.get("/cohorts", async (req, res) => {
   try {
     const cohorts = await pool.query("SELECT * FROM cohorts");
     return res.json(cohorts.rows);
