@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import morgan from "morgan";
 import path from "path";
 
@@ -10,10 +11,12 @@ import {
 	pushStateRouting,
 } from "./middleware";
 
+
 const apiRoot = "/api";
 const staticDir = path.join(__dirname, "static");
 
 const app = express();
+
 
 app.use(express.json());
 app.use(configuredHelmet());
