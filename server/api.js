@@ -52,19 +52,21 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
 	const username = req.body.username;
 	let user;
-	pool
+	pool//checking if username exist in the database
 		.query("SELECT * FROM users WHERE user_name=$1", [username])
 		.then((result) => {
 			if (result.rows.length !== 1) {
 				res.status(403).send("Username doesn't exist");
 			} else {
-				try {
+				try {//user is the payload
 					user = result.rows[0];
+					//verifying password with the stored one on database
 					bcrypt.compare(req.body.password, user.pass_hash, (err, data) => {
 						if (err) {
 							console.err(err);
 						}
 						if (data) {
+							//jsonwebtoken is generated after login success
 						const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 						res.status(200).json({
 							login: "success",
