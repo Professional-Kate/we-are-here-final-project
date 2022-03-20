@@ -24,8 +24,8 @@ CREATE TABLE users (
   id                     SERIAL PRIMARY KEY,
   first_name             VARCHAR(20) NOT NULL,
   last_name              VARCHAR(20) NOT NULL, 
-  pass_hash              TEXT NOT NULL,
-  user_name              VARCHAR(15) NOT NULL,
+  pass_hash              VARCHAR(60) NOT NULL,
+  user_name              VARCHAR(30) NOT NULL,
   is_volunteer           BOOLEAN NOT NULL,
   cohort_id              INT,
   FOREIGN KEY(cohort_id) REFERENCES cohorts(id),
@@ -65,3 +65,8 @@ CREATE TABLE volunteer_flags (
   FOREIGN KEY(user_id) REFERENCES users(id),
   FOREIGN KEY(week_id) REFERENCES weeks(id)
 );
+
+-- inserting into regions from my research this is all the regions CYF handles
+INSERT INTO regions 
+(name) VALUES
+('West Midlands'), ('Scotland'), ('London'), ('North West'), ('Rome'), ('Cape Town');
