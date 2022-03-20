@@ -76,7 +76,7 @@ router.post("/login", (req, res) => {
 				//verifying password with the stored one on database
 				bcrypt.compare(req.body.password, user.pass_hash, (err, data) => {
 					if (err) {
-						console.err(err);
+						res.sendStatus(403);
 					}
 					if (data) {
 						//jsonwebtoken is generated after login success
