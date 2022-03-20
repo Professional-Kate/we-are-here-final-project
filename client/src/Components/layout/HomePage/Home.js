@@ -11,7 +11,7 @@ export function Home() {
 			<div>
 				<Link to="/LoginForm/this/site">Sign In</Link>
 				<h3>Or</h3>
-				<Link to="../SignUp/this/site">Sign Up</Link>
+				<Link to="/SignupForm/this/site">Sign Up</Link>
 			</div>
 		</main>
 	);

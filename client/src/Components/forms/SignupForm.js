@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import "./Form.css";
 
 function SignupForm({ isVolunteer }) {
+	console.log(isVolunteer);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const initialDetails = {
 		Name: "",
@@ -31,7 +32,6 @@ function SignupForm({ isVolunteer }) {
 
 	const validate = (details) => {
 		const errors = {};
-		const userNameRegex = /^[a-z0-9]+(?:[ _.-][a-z0-9]+)*$/;
 
 		if (!details.Name) {
 			errors.Name = "Name is required";
@@ -43,15 +43,16 @@ function SignupForm({ isVolunteer }) {
 		}
 		if (!details.Username) {
 			errors.Username = "Username is required";
-		} else if (
-			details.Username.length < 3 ||
-			!userNameRegex.test(details.Username)
-		) {
-			errors.Username = "Required format: word, word-sep-word";
+		} else if (details.Username.length < 6) {
+			errors.Username = "Username must be 6 or more characters";
 		}
+		if (details.Username.includes(" ")) {
+			errors.Username = "No space required";
+		}
+
 		if (!details.Password) {
 			errors.Password = "Password is required";
-		} else if (details.Password.length < 3) {
+		} else if (details.Password.length < 6) {
 			errors.Password = "Password is too short";
 		}
 		if (details.ConfirmPassword !== details.Password) {
@@ -60,6 +61,7 @@ function SignupForm({ isVolunteer }) {
 
 		return errors;
 	};
+
 	return (
 		<section className="signup__forms">
 			<div className="trainee__form">
@@ -71,8 +73,18 @@ function SignupForm({ isVolunteer }) {
 				<form onSubmit={submitHandler}>
 					<div className="form-inner">
 						<h2>Sign Up Page</h2>
-						<h3>Please enter your details as a {isVolunteer ? "volunteer": "trainee"}</h3>
-
+						<h3>Please select your role as:</h3>
+						<div className="roles">
+							<input type="radio" id="trainee" name="role" value="Trainee" />{" "}
+							<label htmlFor="trainee">Trainee </label>
+							<input
+								type="radio"
+								id="volunteer"
+								name="role"
+								value="volunteer"
+							/>
+							<label htmlFor="volunteer">Volunteer </label>
+						</div>
 						<div className="form-group">
 							<label htmlFor="trainee_name">Name:</label>
 							<input
@@ -142,7 +154,7 @@ function SignupForm({ isVolunteer }) {
 						<input
 							type="submit"
 							onClick={submitHandler}
-							value="Sign Up"
+							value="Submit"
 							className="btn"
 						/>
 					</div>
