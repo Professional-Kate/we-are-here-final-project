@@ -1,9 +1,4 @@
--- Script for inserting random data into the database 
-
--- From my research this is all the regions CYF handles
-INSERT INTO regions 
-(name) VALUES
-('West Midlands'), ('Scotland'), ('London'), ('North West'), ('Rome'), ('Cape Town');
+-- run these commands from a psql shell. Otherwise you would need to get superuser permission which just isn't fun
 
 -- inserting cohorts into the table from the cohorts.csv file
 \COPY cohorts(number, region_id) FROM 'server/SQL/data/cohorts.csv' 
