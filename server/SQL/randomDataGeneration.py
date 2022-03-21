@@ -6,7 +6,7 @@ import requests as fetch # http requests
 import json # converting the returned response into JSON
 
 # variables for you to change how much data is generated
-AMOUNT_OF_USERS = 10000 # Change this to alter the amount of rows you want
+AMOUNT_OF_USERS = 3000 # Change this to alter the amount of users you want
 AMOUNT_OF_VOLUNTEERS = math.floor(AMOUNT_OF_USERS / 3) # will always be 30% of volunteers to users
 COHORTS_PER_REGION = 3 # for each region will make this many cohorts
 REGIONS = ["West Midlands", "Scotland", "London", "North West", "Rome", "Cape Town"]
@@ -22,7 +22,6 @@ def make_file (table):
   """
   args:
     table : <string> - the name of the table you are generating data for
-    column : <list> - The name of each column in the table
 
   Makes a new SQL file based on the variables at the top of this script and populates it with random data
   """
@@ -33,12 +32,11 @@ def make_file (table):
   match table:
     case "users":
       file.write(f"INSERT INTO {table} (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) \nVALUES \n") # Write the INSERT INTO statement 
-      # the + 1 is so we can get to the number above and not one before
+      # the + 1 is so we can get to the number we want and not one before
       for i in range(1, AMOUNT_OF_USERS + 1):
         [first_name, last_name] = data[i - 1].split("_") # getting first and last names seperated
         is_volunteer = False
 
-        # row data 
         if (i <= AMOUNT_OF_VOLUNTEERS): is_volunteer = True # 30% of people will be volunteers
 
         # every password is "password" just to make life easier 
@@ -55,9 +53,6 @@ def make_file (table):
           file.write(f"({i}, {region}){';' if region == length and i == COHORTS_PER_REGION else ','} \n")
 
   file.close() # close the file
-
-
-# lists relevent to each table. The elements in the lists are each column in the table
 
 make_file("users") # setting up the users.sql file
 make_file("cohorts") # setting up the cohorts.sql file
