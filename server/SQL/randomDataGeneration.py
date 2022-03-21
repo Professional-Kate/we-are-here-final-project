@@ -18,7 +18,7 @@ response = fetch.get(f"http://names.drycodes.com/{AMOUNT_OF_USERS}?nameOptions=s
 data = json.loads(response.text) # getting the data from that fetch
 
 # function to make my life easier
-def make_file (table, columns):
+def make_file (table):
   """
   args:
     table : <string> - the name of the table you are generating data for
@@ -27,12 +27,12 @@ def make_file (table, columns):
   Makes a new SQL file based on the variables at the top of this script and populates it with random data
   """
   file = open(f"{path}/{table}.sql", "w") # open the file we want to edit
-  file.write(f"INSERT INTO {table} ({columns}) \nVALUES \n") # Write the INSERT INTO statement 
 
 
   # match...case statement so we know what file to change. This is based on the table paramater
   match table:
     case "users":
+      file.write(f"INSERT INTO {table} (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) \nVALUES \n") # Write the INSERT INTO statement 
       # the + 1 is so we can get to the number above and not one before
       for i in range(1, AMOUNT_OF_USERS + 1):
         [first_name, last_name] = data[i - 1].split("_") # getting first and last names seperated
@@ -46,19 +46,18 @@ def make_file (table, columns):
         file.write(f"('{first_name}', '{last_name}', '{'$2b$10$cFIl9HeKhXaTMxPyRWOhAuXqrDz95GuTRFQ7ZND5ljXmU2A/Yx9Fe'}','{first_name + last_name}', {is_volunteer}, {random.randint(1, len(REGIONS) * COHORTS_PER_REGION)}){';' if i == AMOUNT_OF_USERS else ','} \n")
 
     case "cohorts":
+      file.write(f"INSERT INTO {table} (number, region_id) \nVALUES \n") # Write the INSERT INTO statement 
+      
       length = len(REGIONS)
       # for each region make N amount of cohorts. (N = COHORTS_PER_REGION)
       for region in range(1, length + 1): 
         for i in range(1, COHORTS_PER_REGION + 1):
-          print(region, i)
           file.write(f"({i}, {region}){';' if region == length and i == COHORTS_PER_REGION else ','} \n")
 
   file.close() # close the file
 
 
 # lists relevent to each table. The elements in the lists are each column in the table
-users_columns = ["first-name", "last-name", "pass-hash", "user-name", "is_volunteer", "cohort_id"]
-cohorts_columns = ["number", "region_id"]
 
-make_file("users", users_columns) # setting up the users.sql file
-make_file("cohorts", cohorts_columns) # setting up the cohorts.sql file
+make_file("users") # setting up the users.sql file
+make_file("cohorts") # setting up the cohorts.sql file
