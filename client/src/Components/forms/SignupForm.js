@@ -77,7 +77,7 @@ function SignupForm({ isVolunteer }) {
 				<form onSubmit={submitHandler}>
 					<div className="form-inner">
 						<h2>Sign Up Page</h2>
-						<h3>Please select your role as:</h3>
+						<p>Please select your role as:</p>
 						<div className="roles">
 							<input type="radio" id="trainee" name="role" value="Trainee" />{" "}
 							<label htmlFor="trainee">Trainee </label>
