@@ -9,6 +9,7 @@ function SignupForm({ isVolunteer }) {
 	const initialDetails = {
 		Name: "",
 		Class: "",
+		Region: "",
 		Username: "",
 		Password: "",
 		ConfirmPassword: "",
@@ -40,6 +41,9 @@ function SignupForm({ isVolunteer }) {
 		}
 		if (!details.Class && isVolunteer === false) {
 			errors.Class = "Class is required";
+		}
+		if(!details.Region){
+			errors.Region = "Region is required";
 		}
 		if (!details.Username) {
 			errors.Username = "Username is required";
@@ -110,8 +114,18 @@ function SignupForm({ isVolunteer }) {
 								</select>
 							</div>
 						)}
-
 						<p className="form__error">{errors.Class}</p>
+						<div className="form-group">
+							<label htmlFor="trainee_name">Region:</label>
+							<select>
+								<option className="traineeRegion">Region:</option>
+								<option value="Glasgow">Glasgow</option>
+								<option value="Manchester">Manchester</option>
+								<option value="London">London</option>
+							</select>
+						</div>
+
+						<p className="form__error">{errors.Region}</p>
 						<div className="form-group">
 							<label htmlFor="trainee_Username">Username:</label>
 							<input
