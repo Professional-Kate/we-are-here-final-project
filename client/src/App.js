@@ -10,7 +10,6 @@ const App = () => (
 	<div>
 		<Header />
 
-
 		<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/LoginForm/this/site" element={<LoginForm />} />
@@ -24,7 +23,6 @@ const App = () => (
 				element={<SignupForm isVolunteer={true} />}
 			/>
 			{/* if the user isn't already logged in then send them to the /Landing page */}
-
 		</Routes>
 	</div>
 );

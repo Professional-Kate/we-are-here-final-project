@@ -1,0 +1,37 @@
+.form__error{
+    color:red;
+}
+.btn{
+    width:max-content;
+    display: inline-block;
+    background:#4db5ff;
+}
+.btn:hover{
+    transition: all 400ms ease;
+    background: transparent;
+}
+.signup__form{
+    position:relative;
+    text-align: center;
+    margin: 2rem;
+  
+}
+.form-inner{
+    position: absolute;
+    left:50%;
+    transform: translate(-50%);
+    width: auto;
+    background: silver;
+    border-radius: 1rem;
+    
+}
+.form-group{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0.25rem;
+    
+}
+label, input{
+ width: max-content;
+
+}
