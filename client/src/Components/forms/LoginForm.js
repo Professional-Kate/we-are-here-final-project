@@ -44,10 +44,9 @@ function LoginForm() {
 			) : (
 				""
 			)}
+			<h2>Sign In Page</h2>
 			<form onSubmit={submitHandler}>
 				<div className="form-inner">
-					<h2>Sign In Page</h2>
-
 					<div className="form-group">
 						<label htmlFor="name">Username:</label>
 						<input

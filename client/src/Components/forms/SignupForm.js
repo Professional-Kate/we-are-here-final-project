@@ -92,8 +92,8 @@ function SignupForm({ isVolunteer }) {
 			) : (
 				""
 			)}
+			<h2>Sign Up Page</h2>
 			<form onSubmit={submitHandler}>
-				<h2>Sign Up Page</h2>
 				<div className="form-inner">
 					<p>Please select your role as:</p>
 					<div className="form-group">
@@ -167,9 +167,9 @@ function SignupForm({ isVolunteer }) {
 					<div className="form-group">
 						<label htmlFor="trainee_name">Password:</label>
 						<input
-							type="trainee_Password"
-							name="trainee_Password"
-							id="trainee_Password"
+							type="password"
+							name="password"
+							id="password"
 							onChange={(e) =>
 								setDetails({ ...details, Password: e.target.value })
 							}
@@ -180,9 +180,9 @@ function SignupForm({ isVolunteer }) {
 					<div className="form-group">
 						<label htmlFor="trainee_name">Confirm Password:</label>
 						<input
-							type="Confirm trainee_Password"
-							name="Confirm trainee_Password"
-							id="Confirm trainee_Password"
+							type="password"
+							name="password"
+							id="password"
 							onChange={(e) =>
 								setDetails({ ...details, ConfirmPassword: e.target.value })
 							}
