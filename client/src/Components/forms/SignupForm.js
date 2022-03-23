@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import "./Form.css";
 
@@ -128,7 +128,7 @@ function SignupForm({ isVolunteer }) {
 							<label htmlFor="trainee_name">Class:</label>
 							<select id="classes">
 								<option className="traineeClass" value="select__class">
-									Classes
+									Class
 								</option>
 								<option value="WM1">WM1</option>
 								<option value="WM1">WM2</option>
@@ -141,7 +141,7 @@ function SignupForm({ isVolunteer }) {
 						<label htmlFor="trainee_name">Region:</label>
 						<select id="regions">
 							<option className="traineeRegion" value="select__region">
-								Regions
+								Region
 							</option>
 							<option value="Glasgow">Glasgow</option>
 							<option value="Manchester">Manchester</option>

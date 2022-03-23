@@ -1,10 +1,14 @@
 import React from "react";
 import "./Header.css";
+import cyfLogo from "../../../assets/CYF-Logo-No-BG.png";
 
 export const Header = () => {
 	return (
 		<div className="container">
 			<header className="header-navbar">
+				<a href="https://codeyourfuture.io" target="_blank" rel="noReferrer">
+					<img className="cyf__logo" src={cyfLogo} alt="CYF Brand"  height="70px" left-top="2px" />
+				</a>
 				<a
 					href="/"
 					className="links"
@@ -48,11 +52,11 @@ export const Header = () => {
 					</li>
 				</ul>
 
-				<div className="navbar-link">
+				{/* <div className="navbar-link">
 					<button type="button" className="logout-btn">
 						Log Out
 					</button>
-				</div>
+				</div> */}
 			</header>
 		</div>
 	);

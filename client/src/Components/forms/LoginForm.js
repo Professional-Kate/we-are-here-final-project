@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import "./Form.css";
 
 function LoginForm() {
@@ -45,6 +47,15 @@ function LoginForm() {
 				""
 			)}
 			<h2>Sign In Page</h2>
+			<div>
+				<p
+					id="new-user-heading"
+					className="card-heading underline underline-color-red"
+				>
+					Sign in or {" "}
+					<Link to="/SignupForm/this/site">Create an account</Link>
+				</p>
+			</div>
 			<form onSubmit={submitHandler}>
 				<div className="form-inner">
 					<div className="form-group">
