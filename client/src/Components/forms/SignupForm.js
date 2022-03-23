@@ -21,19 +21,19 @@ function SignupForm({ isVolunteer }) {
 
 	function submitHandler(e) {
 		e.preventDefault();
+		loop();
 		setErrors(validate(details));
 		setSubmit(true);
 	}
 	// ERROR useEffect is running in an infinite loop
-	useEffect(() => {
+		function loop (){
 		console.log("errors", errors);
-		if (Object.keys(errors).length === 0 && submit) {
+		if (Object.keys(errors).length === 0 && submit){
 			console.log("details entered:", details);
+}
 		return	setDetails(initialDetails);
-
 		}
-
-	},[details, initialDetails, submit, errors]);
+	// [details, initialDetails, submit, errors];
 
 	const validate = (details) => {
 		const errors = {};
@@ -49,7 +49,6 @@ function SignupForm({ isVolunteer }) {
 		} else if (details.Name.length < 3) {
 			errors.Name = "Please enter your full name";
 		}
-		// -----------------------//
 
 		let classes = document.getElementById("classes");
 		let selectedClass = classes.options[classes.selectedIndex].value;
@@ -152,7 +151,7 @@ function SignupForm({ isVolunteer }) {
 
 					<p className="form__error">{errors.Region}</p>
 					<div className="form-group">
-						<label htmlFor="trainee_Username">Username:</label>
+						<label htmlFor="trainee_name">Username:</label>
 						<input
 							type="text"
 							name="trainee_Username"

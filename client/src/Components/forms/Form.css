@@ -4,7 +4,7 @@
 .btn{
     width:max-content;
     display: inline-block;
-    background:#4db5ff;
+    background:#d12f2f;
 }
 .btn:hover{
     transition: all 400ms ease;
@@ -29,8 +29,9 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     padding: 0.25rem;
-    
+     
 }
+
 label, input{
  width: max-content;
 
