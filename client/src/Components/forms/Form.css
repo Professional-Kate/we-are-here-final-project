@@ -5,14 +5,31 @@
   top: 5px;
 }
 
+/* background image */
+.background-logo{
+    position: fixed;
+    top: 80px;
+    bottom: 50px;
+    right: 0px;
+    left: 0px;
+}
+
+/* heading of we are here */
 h2{
     justify-content: center;
     text-align: center;
-    margin-top: 50px;
-    background-color : #d12f2f;
-    font-weight:900;
-    font-size:xx-larger;
-    
+    margin-top: 150px;
+    font-weight:600;
+    font-size:80px;
+    color: black;    
+}
+
+/* description about we are here */
+.about_text{
+    font-size: 30px;
+    font-weight: 250px;
+    color: white;
+
 }
 
 /* -------------------------SIGN-IN PAGE---------------------- */
@@ -116,7 +133,9 @@ form .signin-form-inner input[type="submit"]:hover {
 
 /* putting create an account under the sign in form */
 #new-user-heading{
-  font-size: 15px;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
   position: fixed;
   left: 885px;
   bottom: 45px;

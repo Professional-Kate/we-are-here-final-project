@@ -46,14 +46,13 @@ function LoginForm() {
 			) : (
 				""
 			)}
-			<h2>WE ARE HERE</h2>
+
 			<div>
 				<p id="new-user-heading" className="new-account-heading">
 					Sign in or <Link to="/SignupForm/this/site">Create an account</Link>
 				</p>
 			</div>
 			<form onSubmit={submitHandler}>
-				{/* <div className="signin__form"> */}
 					<div className="signin-form-inner">
 						<div className="form-group">
 							<label htmlFor="name">Username:</label>
@@ -88,7 +87,6 @@ function LoginForm() {
 							className="btn"
 						/>
 					</div>
-				{/* </div> */}
 			</form>
 		</div>
 	);

@@ -1,10 +1,22 @@
 import React from "react";
 import "./Header.css";
 import cyfLogo from "../../../assets/CYF-Logo-No-BG.png";
+import backgroundCode from "../../../assets/background-code.jpg";
 
 export const Header = () => {
 	return (
 		<div className="container">
+			<div className="background-logo">
+				{/* <h2>WE ARE HERE</h2> */}
+				<img
+					className="backgroundCode__logo"
+					src={backgroundCode}
+					alt="google-jpg"
+					width="1300px"
+					height="500"
+				/>
+			</div>
+
 			<header className="header-navbar">
 				<div className="logo-header">
 					<a href="https://codeyourfuture.io" target="_blank" rel="noReferrer">
@@ -12,11 +24,22 @@ export const Header = () => {
 							className="cyf__logo"
 							src={cyfLogo}
 							alt="CYF Brand"
-							height="70px"
-
+							height="80px"
 						/>
 					</a>
+					<h2>WE ARE HERE</h2>
+					<p className="about_text">
+						Join WE ARE HERE as a trainee or volunteer.
+					</p>
+					<p className="about_text">
+						It is a manual clock in system for trainees
+					</p>
+					<p className="about_text">
+						{" "}
+						and volunteers for upcoming events and classes.
+					</p>
 				</div>
+
 				<a href="/" className="links">
 					<svg
 						className="bi me-2"
@@ -50,18 +73,7 @@ export const Header = () => {
 							FAQs
 						</a>
 					</li>
-					<li>
-						<a href="#" className="navbar-link">
-							About
-						</a>
-					</li>
 				</ul>
-
-				{/* <div className="navbar-link">
-					<button type="button" className="logout-btn">
-						Log Out
-					</button>
-				</div> */}
 			</header>
 		</div>
 	);
