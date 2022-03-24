@@ -6,13 +6,18 @@ export const Header = () => {
 	return (
 		<div className="container">
 			<header className="header-navbar">
-				<a href="https://codeyourfuture.io" target="_blank" rel="noReferrer">
-					<img className="cyf__logo" src={cyfLogo} alt="CYF Brand"  height="70px" left-top="2px" />
-				</a>
-				<a
-					href="/"
-					className="links"
-				>
+				<div className="logo-header">
+					<a href="https://codeyourfuture.io" target="_blank" rel="noReferrer">
+						<img
+							className="cyf__logo"
+							src={cyfLogo}
+							alt="CYF Brand"
+							height="70px"
+
+						/>
+					</a>
+				</div>
+				<a href="/" className="links">
 					<svg
 						className="bi me-2"
 						width="40"

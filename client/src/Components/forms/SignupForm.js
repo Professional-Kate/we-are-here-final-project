@@ -85,31 +85,33 @@ function SignupForm({ isVolunteer }) {
 	};
 
 	return (
-		<section className="signup__form">
+		<section className="signup_form">
 			{Object.keys(errors).length === 0 && submit ? (
 				<div className="ui msg success">Signed Up Successfully</div>
 			) : (
 				""
 			)}
-			<h2>Sign Up Page</h2>
+			<h3>Sign Up Page</h3>
 			<form onSubmit={submitHandler}>
 				<div className="form-inner">
 					<p>Please select your role as:</p>
 					<div className="form-group">
-						<div className="trainee__radio">
-							<input type="radio" id="trainee" name="role" value="Trainee" />
-							<label htmlFor="trainee">Trainee </label>
+						<div className="roles">
+							<div className="trainee__radio">
+								<input type="radio" id="trainee" name="role" value="Trainee" />
+								<label htmlFor="trainee">Trainee </label>
+							</div>
+							<div className="volunteer__radio">
+								<input
+									type="radio"
+									id="volunteer"
+									name="role"
+									value="volunteer"
+								/>
+								<label htmlFor="volunteer">Volunteer </label>
+							</div>
+							<p className="form__error">{errors.Role}</p>
 						</div>
-						<div className="volunteer__radio">
-							<input
-								type="radio"
-								id="volunteer"
-								name="role"
-								value="volunteer"
-							/>
-							<label htmlFor="volunteer">Volunteer </label>
-						</div>
-						<p className="form__error">{errors.Role}</p>
 					</div>
 					<div className="form-group">
 						<label htmlFor="trainee_name">Name:</label>

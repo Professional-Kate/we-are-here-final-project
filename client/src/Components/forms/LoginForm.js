@@ -46,51 +46,49 @@ function LoginForm() {
 			) : (
 				""
 			)}
-			<h2>Sign In Page</h2>
+			<h2>WE ARE HERE</h2>
 			<div>
-				<p
-					id="new-user-heading"
-					className="card-heading underline underline-color-red"
-				>
-					Sign in or {" "}
-					<Link to="/SignupForm/this/site">Create an account</Link>
+				<p id="new-user-heading" className="new-account-heading">
+					Sign in or <Link to="/SignupForm/this/site">Create an account</Link>
 				</p>
 			</div>
 			<form onSubmit={submitHandler}>
-				<div className="form-inner">
-					<div className="form-group">
-						<label htmlFor="name">Username:</label>
+				{/* <div className="signin__form"> */}
+					<div className="signin-form-inner">
+						<div className="form-group">
+							<label htmlFor="name">Username:</label>
+							<input
+								type="text"
+								name="name"
+								id="name"
+								onChange={(e) =>
+									setDetails({ ...details, userName: e.target.value })
+								}
+								value={details.userName}
+							/>
+						</div>
+						<p className="form__error">{errors.userName}</p>
+						<div className="form-group">
+							<label htmlFor="password">Password:</label>
+							<input
+								type="password"
+								name="password"
+								id="password"
+								onChange={(e) =>
+									setDetails({ ...details, password: e.target.value })
+								}
+								value={details.password}
+							/>
+						</div>
+						<p className="form__error">{errors.password}</p>
 						<input
-							type="text"
-							name="name"
-							id="name"
-							onChange={(e) =>
-								setDetails({ ...details, userName: e.target.value })
-							}
-							value={details.userName}
+							type="submit"
+							onClick={submitHandler}
+							value="Sign In"
+							className="btn"
 						/>
 					</div>
-					<p className="form__error">{errors.userName}</p>
-					<div className="form-group">
-						<label htmlFor="password">Password:</label>
-						<input
-							type="password"
-							name="password"
-							id="password"
-							onChange={(e) =>
-								setDetails({ ...details, password: e.target.value })
-							}
-							value={details.password}
-						/>
-					</div>
-					<p className="form__error">{errors.password}</p>
-					<input
-						type="submit"
-						onClick={submitHandler}
-						value="Sign In"
-						className="btn"
-					/>
-				</div>
+				{/* </div> */}
 			</form>
 		</div>
 	);
