@@ -1,3 +1,4 @@
+import { response } from "express";
 import React, { useState, useEffect } from "react";
 import "./Form.css";
 
@@ -24,7 +25,28 @@ function LoginForm() {
 		if (Object.keys(errors).length === 0 && submit) {
 			setDetails(initialDetails);
 			console.log("details entered:", details);
+			// Tenzin: retrieving jwt token from backend
+			fetch("api/login")
+			.then((response) => {
+				if (response.status >= 200 && response.status <= 299) {
+					return response.json();
+				} else {
+					throw new Error(
+						`Something went wrong: ${response.status} ${response.statusText}`
+					);
+				}
+			})
+			.then((data) => localStorage.set("token", data.accessToken))
+			.catch((error) => error.message);
 		}
+		//Accessing protected source with token
+		const token = window.localStorage.get("token");
+		fetch("api/auth/clockin", {
+			headers: {
+				authentication: `Bearer ${token}`,
+			},
+		})
+		.then();
 	},[details, errors, initialDetails, submit]);
 
 	const validate = (details) => {
