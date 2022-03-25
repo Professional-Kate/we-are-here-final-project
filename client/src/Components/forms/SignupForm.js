@@ -91,114 +91,123 @@ function SignupForm({ isVolunteer }) {
 			) : (
 				""
 			)}
-			<h3>Sign Up Page</h3>
-			<form onSubmit={submitHandler}>
-				<div className="form-inner">
-					<p>Please select your role as:</p>
-					<div className="form-group">
-						<div className="roles">
-							<div className="trainee__radio">
-								<input type="radio" id="trainee" name="role" value="Trainee" />
-								<label htmlFor="trainee">Trainee </label>
-							</div>
-							<div className="volunteer__radio">
-								<input
-									type="radio"
-									id="volunteer"
-									name="role"
-									value="volunteer"
-								/>
-								<label htmlFor="volunteer">Volunteer </label>
-							</div>
-							<p className="form__error">{errors.Role}</p>
-						</div>
-					</div>
-					<div className="form-group">
-						<label htmlFor="trainee_name">Name:</label>
-						<input
-							type="text"
-							name="trainee_name"
-							id="trainee_name"
-							onChange={(e) => setDetails({ ...details, Name: e.target.value })}
-							value={details.Name}
-						/>
-					</div>
-					<p className="form__error">{errors.Name}</p>
 
-					{isVolunteer ? null : (
+
+
+				<form onSubmit={submitHandler}>
+					<div className="form-inner">
+						<p>Please select your role as:</p>
 						<div className="form-group">
-							<label htmlFor="trainee_name">Class:</label>
-							<select id="classes">
-								<option className="traineeClass" value="select__class">
-									Class
+							<div className="roles">
+								<div className="trainee__radio">
+									<input
+										type="radio"
+										id="trainee"
+										name="role"
+										value="Trainee"
+									/>
+									<label htmlFor="trainee">Trainee </label>
+								</div>
+								<div className="volunteer__radio">
+									<input
+										type="radio"
+										id="volunteer"
+										name="role"
+										value="volunteer"
+									/>
+									<label htmlFor="volunteer">Volunteer </label>
+								</div>
+								<p className="form__error">{errors.Role}</p>
+							</div>
+						</div>
+						<div className="form-group">
+							<label htmlFor="trainee_name">Full Name:</label>
+							<input
+								type="text"
+								name="trainee_name"
+								id="trainee_name"
+								onChange={(e) =>
+									setDetails({ ...details, Name: e.target.value })
+								}
+								value={details.Name}
+							/>
+						</div>
+						<p className="form__error">{errors.Name}</p>
+
+						{isVolunteer ? null : (
+							<div className="form-group">
+								<label htmlFor="trainee_name">Class:</label>
+								<select id="classes">
+									<option className="traineeClass" value="select__class">
+										Class
+									</option>
+									<option value="WM1">WM1</option>
+									<option value="WM1">WM2</option>
+									<option value="WM1">WM3</option>
+								</select>
+							</div>
+						)}
+						<p className="form__error">{errors.Class}</p>
+						<div className="form-group">
+							<label htmlFor="trainee_name">Region:</label>
+							<select id="regions">
+								<option className="traineeRegion" value="select__region">
+									Region
 								</option>
-								<option value="WM1">WM1</option>
-								<option value="WM1">WM2</option>
-								<option value="WM1">WM3</option>
+								<option value="Glasgow">Glasgow</option>
+								<option value="Manchester">Manchester</option>
+								<option value="London">London</option>
 							</select>
 						</div>
-					)}
-					<p className="form__error">{errors.Class}</p>
-					<div className="form-group">
-						<label htmlFor="trainee_name">Region:</label>
-						<select id="regions">
-							<option className="traineeRegion" value="select__region">
-								Region
-							</option>
-							<option value="Glasgow">Glasgow</option>
-							<option value="Manchester">Manchester</option>
-							<option value="London">London</option>
-						</select>
-					</div>
 
-					<p className="form__error">{errors.Region}</p>
-					<div className="form-group">
-						<label htmlFor="trainee_name">Username:</label>
+						<p className="form__error">{errors.Region}</p>
+						<div className="form-group">
+							<label htmlFor="trainee_name">Username:</label>
+							<input
+								type="text"
+								name="trainee_Username"
+								id="trainee_Username"
+								onChange={(e) =>
+									setDetails({ ...details, Username: e.target.value })
+								}
+								value={details.Username}
+							/>
+						</div>
+						<p className="form__error">{errors.Username}</p>
+						<div className="form-group">
+							<label htmlFor="trainee_name">Password:</label>
+							<input
+								type="password"
+								name="password"
+								id="password"
+								onChange={(e) =>
+									setDetails({ ...details, Password: e.target.value })
+								}
+								value={details.Password}
+							/>
+						</div>
+						<p className="form__error">{errors.Password}</p>
+						<div className="form-group">
+							<label htmlFor="trainee_name">Confirm Password:</label>
+							<input
+								type="password"
+								name="password"
+								id="password"
+								onChange={(e) =>
+									setDetails({ ...details, ConfirmPassword: e.target.value })
+								}
+								value={details.ConfirmPassword}
+							/>
+						</div>
+						<p className="form__error">{errors.ConfirmPassword}</p>
 						<input
-							type="text"
-							name="trainee_Username"
-							id="trainee_Username"
-							onChange={(e) =>
-								setDetails({ ...details, Username: e.target.value })
-							}
-							value={details.Username}
+							type="submit"
+							onClick={submitHandler}
+							value="Submit"
+							className="btn"
 						/>
 					</div>
-					<p className="form__error">{errors.Username}</p>
-					<div className="form-group">
-						<label htmlFor="trainee_name">Password:</label>
-						<input
-							type="password"
-							name="password"
-							id="password"
-							onChange={(e) =>
-								setDetails({ ...details, Password: e.target.value })
-							}
-							value={details.Password}
-						/>
-					</div>
-					<p className="form__error">{errors.Password}</p>
-					<div className="form-group">
-						<label htmlFor="trainee_name">Confirm Password:</label>
-						<input
-							type="password"
-							name="password"
-							id="password"
-							onChange={(e) =>
-								setDetails({ ...details, ConfirmPassword: e.target.value })
-							}
-							value={details.ConfirmPassword}
-						/>
-					</div>
-					<p className="form__error">{errors.ConfirmPassword}</p>
-					<input
-						type="submit"
-						onClick={submitHandler}
-						value="Submit"
-						className="btn"
-					/>
-				</div>
-			</form>
+				</form>
 		</section>
 	);
 }

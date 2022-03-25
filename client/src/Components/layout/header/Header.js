@@ -1,21 +1,10 @@
 import React from "react";
 import "./Header.css";
 import cyfLogo from "../../../assets/CYF-Logo-No-BG.png";
-import backgroundCode from "../../../assets/background-code.jpg";
 
 export const Header = () => {
 	return (
 		<div className="container">
-			<div className="background-logo">
-				{/* <h2>WE ARE HERE</h2> */}
-				<img
-					className="backgroundCode__logo"
-					src={backgroundCode}
-					alt="google-jpg"
-					width="1300px"
-					height="500"
-				/>
-			</div>
 
 			<header className="header-navbar">
 				<div className="logo-header">

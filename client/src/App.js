@@ -1,13 +1,15 @@
 import { Route, Routes } from "react-router-dom";
 import SignupForm from "./Components/forms/SignupForm";
 import LoginForm from "./Components/forms/LoginForm";
+import Home from "./Components/layout/HomePage/Home";
+// import { Footer } from "./Components/layout/footer/Footer";
 
-import { Header } from "./Components/layout/header/Header.js";
+
 
 
 const App = () => (
 	<div>
-		<Header />
+		<Home />
 
 		<Routes>
 			<Route path="/" element={<LoginForm />} />
@@ -22,6 +24,7 @@ const App = () => (
 				element={<SignupForm isVolunteer={true} />}
 			/>
 		</Routes>
+		{/* <Footer /> */}
 	</div>
 );
 
