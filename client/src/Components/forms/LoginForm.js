@@ -69,13 +69,6 @@ function LoginForm() {
 					</div>
 					<p className="form__error">{errors.userName}</p>
 					<div className="form-group">
-						<p className="show-password"
-							onClick={() =>
-								setType((type) => (type === "password" ? "text" : "password"))
-							}
-						>
-							Show Password
-						</p>
 						<label htmlFor="password">Password:</label>
 						<input
 							type={type}
@@ -86,6 +79,14 @@ function LoginForm() {
 							}
 							value={details.password}
 						/>
+						<p
+							className="show-password"
+							onClick={() =>
+								setType((type) => (type === "password" ? "text" : "password"))
+							}
+						>
+							Show Password
+						</p>
 					</div>
 
 					<p className="form__error">{errors.password}</p>
