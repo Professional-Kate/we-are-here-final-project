@@ -1,0 +1,19 @@
+
+li{
+  display: inline;
+  padding-left: 50px;
+  margin-top: 5px;
+}
+
+li a{
+  color: black;
+  text-decoration: none;
+  padding:80px;
+  transition: .5s ease;
+}
+
+
+li a:hover{
+  color: #d12f2f;
+
+}
