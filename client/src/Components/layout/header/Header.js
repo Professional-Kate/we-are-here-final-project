@@ -1,8 +1,17 @@
 import React from "react";
 import "./Header.css";
 import cyfLogo from "../../../assets/CYF-Logo-No-BG.png";
+import { Link } from "react-router-dom";
+
 
 export const Header = () => {
+
+	const signout = async () => {
+		await fetch("http://localhost:3000/api/logout", {	
+			method: "POST",
+			headers: {"Content-Type": "application/json"},
+			credentials: "include"
+	})
 	return (
 		<div className="container">
 
@@ -62,8 +71,12 @@ export const Header = () => {
 							FAQs
 						</a>
 					</li>
+					<li>
+						<Link to="/" className="navbar-link" onClick={signout}>Sign Out</Link>
+					</li>
 				</ul>
 			</header>
 		</div>
 	);
+	};
 };
