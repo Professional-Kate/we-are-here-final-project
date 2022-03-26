@@ -1,7 +1,12 @@
-
+.create-link{
+  color: #fff;
+}
 body{
-  background-image: url('https://thumbs.dreamstime.com/b/binary-splash-screen-3164079.jpg'); 
+  background-image: url('https://thumbs.dreamstime.com/b/binary-splash-screen-3164079.jpg');
   -webkit-backdrop-filter: blur(100px);
+  backdrop-filter: blur(10px);
+  margin-top: 10px;
+  
 }
 
 
@@ -17,9 +22,9 @@ body{
 /* show and hide password*/
 .show-password{
   cursor: pointer;
-  /* position: relative;
-  left:92px;
-  top:88px; */
+  position: relative;
+  left:110px;
+  bottom: 25px;
   font-size: 11px;
   color: rgb(119, 117, 117);
 }
@@ -81,9 +86,9 @@ h2{
   font-size: 20px;
   font-weight: 500;
   color: black;
-  position: fixed;
-  left: 885px;
-  bottom: 45px;
+  position: relative;
+  left: 750px;
+  top: 50px;
 }
 
 /*errors for empty inputs*/
@@ -169,7 +174,7 @@ button {
   background: none;
   border: none;
   outline: none;
-} */
+}  */
 
 /* colour for submit button */
 /* form .form-inner input[type="submit"] {
@@ -182,7 +187,7 @@ button {
   transition: 0.4s;
   color: #3F3B39;
   font-weight: 700;
-  cursor: pointer;
+  
   margin-left: 110px;
 }
 form .form-inner input[type="submit"]:hover {
@@ -223,7 +228,7 @@ form .form-inner input[type="submit"]:hover {
 }
 .form-inner{
     position: absolute;
-    top: 30%;
+    top: 160%;
     left:75%;
     transform: translate(-50%);
     width: auto;
@@ -250,4 +255,16 @@ label, input{
 .btn{
   background-color: red;
   color: white;
+  cursor: pointer;
+  margin-left: auto;
 }
+
+/* .signIn-btn{
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  margin-left: 50px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+} */

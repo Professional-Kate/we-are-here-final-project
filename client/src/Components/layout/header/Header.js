@@ -44,17 +44,17 @@ export const Header = () => {
 				<ul className="list-navbar">
 					<li>
 						<a href="#" className="navbar-link">
+							About
+						</a>
+					</li>
+					<li>
+						<a href="#" className="navbar-link">
 							Home
 						</a>
 					</li>
 					<li>
 						<a href="#" className="navbar-link">
 							Features
-						</a>
-					</li>
-					<li>
-						<a href="#" className="navbar-link">
-							Pricing
 						</a>
 					</li>
 					<li>
