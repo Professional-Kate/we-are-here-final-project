@@ -44,7 +44,7 @@ def make_file (table):
         is_volunteer = False
         username = first_name + last_name # used to make sure we don't add duplicate usernames
 
-        # checking if the username exists, if it does then replace it with some random 
+        # checking if the username exists, if it does then add on a random int
         if username in usernames:
           print("duplicate username detected, replacing")
           username += str(random.randint(0, 1000000))
