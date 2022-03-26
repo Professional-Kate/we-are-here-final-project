@@ -7,33 +7,34 @@ function SignupForm({ isVolunteer }) {
 	console.log(isVolunteer);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const initialDetails = {
-		Role: "",
-		Name: "",
-		Class: "",
-		Region: "",
-		Username: "",
-		Password: "",
-		ConfirmPassword: "",
+		role: "",
+		firstName: "",
+		lastName: "",
+		cohort: "",
+		regionName: "",
+		username: "",
+		password: "",
+		confirmPassword: "",
 	};
 	const [details, setDetails] = useState(initialDetails);
 	const [errors, setErrors] = useState({});
-	const [submit, setSubmit] = useState(false);
+	const [cohorts, setCohorts] = useState([]);
+	const [regions, setRegions] = useState([]);
+
+	useEffect(() => {
+		fetch()
+
+	}, [])
 
 	function submitHandler(e) {
 		e.preventDefault();
-		loop();
 		setErrors(validate(details));
-		setSubmit(true);
-	}
-	// ERROR useEffect is running in an infinite loop
-		function loop (){
 		console.log("errors", errors);
-		if (Object.keys(errors).length === 0 && submit){
+		if (Object.keys(errors).length === 0){
 			console.log("details entered:", details);
-}
-		return	setDetails(initialDetails);
 		}
-	// [details, initialDetails, submit, errors];
+		return	setDetails(initialDetails);
+	}
 
 	const validate = (details) => {
 		const errors = {};
@@ -62,7 +63,6 @@ function SignupForm({ isVolunteer }) {
 			errors.Region = "Region is required";
 		}
 
-
 		if (!details.Username) {
 			errors.Username = "Username is required";
 		} else if (details.Username.length < 6) {
@@ -86,23 +86,23 @@ function SignupForm({ isVolunteer }) {
 
 	return (
 		<section className="signup_form">
-			{Object.keys(errors).length === 0 && submit ? (
-				<div className="ui msg success">Signed Up Successfully</div>
-			) : (
-				""
-			)}
-
 			<form onSubmit={submitHandler}>
 				<div className="form-inner">
 					<h6>Please select your role as:</h6>
 					<div className="form-group">
 						<div className="roles">
 							<div className="trainee__radio">
-								<input type="radio" id="trainee" name="role" value="Trainee" />
+								<input
+									onChange={(e) => setDetails({ ...details, role: e.target.value })}
+									type="radio"
+									id="trainee"
+									name="role"
+									value="Trainee" />
 								<label htmlFor="trainee">Trainee </label>
 							</div>
 							<div className="volunteer__radio">
 								<input
+									onChange={(e) => setDetails({ ...details, role: e.target.value })}
 									type="radio"
 									id="volunteer"
 									name="role"
@@ -114,40 +114,43 @@ function SignupForm({ isVolunteer }) {
 						<p className="form__error">{errors.Role}</p>
 					</div>
 					<div className="form-group">
-						<label htmlFor="trainee_name">Full Name:</label>
+						<label htmlFor="firstName">Full Name:</label>
 						<input
 							type="text"
-							name="trainee_name"
-							id="trainee_name"
-							onChange={(e) => setDetails({ ...details, Name: e.target.value })}
-							value={details.Name}
+							name="firstName"
+							id="firstName"
+							onChange={(e) => setDetails({ ...details, firstName: e.target.value })}
+							value={details.firstName}
 						/>
 					</div>
 					<p className="form__error">{errors.Name}</p>
-
-					{isVolunteer ? null : (
-						<div className="form-group">
-							<label htmlFor="trainee_name">Class:</label>
-							<select id="classes">
-								<option className="traineeClass" value="select__class">
-									Class
-								</option>
-								<option value="WM1">WM1</option>
-								<option value="WM1">WM2</option>
-								<option value="WM1">WM3</option>
-							</select>
-						</div>
-					)}
+					<div className="form-group">
+						<label htmlFor="lastName">Last Name:</label>
+						<input
+							type="text"
+							name="lastName"
+							id="lastName"
+							onChange={(e) => setDetails({ ...details, lastName: e.target.value })}
+							value={details.lastName}
+						/>
+					</div>
+					<p className="form__error">{errors.Name}</p>
+					<div className="form-group">
+						<label htmlFor="cohort">Cohort:</label>
+						<select onChange={(e) => setDetails({ ...details, cohort: e.target.value })} id="cohort">
+							{<option className="traineeClass" value="select__class">
+								cohort
+							</option>
+							}
+						</select>
+					</div>
 					<p className="form__error">{errors.Class}</p>
 					<div className="form-group">
-						<label htmlFor="trainee_name">Region:</label>
-						<select id="regions">
+						<label htmlFor="region">Region:</label>
+						<select id="region">
 							<option className="traineeRegion" value="select__region">
 								Region
 							</option>
-							<option value="Glasgow">Glasgow</option>
-							<option value="Manchester">Manchester</option>
-							<option value="London">London</option>
 						</select>
 					</div>
 

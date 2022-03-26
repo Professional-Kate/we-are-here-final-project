@@ -74,7 +74,7 @@ function LoginForm() {
 			<div>
 				<p id="new-user-heading" className="new-account-heading">
 					Sign in or{" "}
-					<Link className="create-link" to="/SignupForm/this/site">
+					<Link className="create-link" to="/signup">
 						Create an account
 					</Link>
 				</p>
