@@ -8,17 +8,18 @@ import requests as fetch # http requests
 import json # converting the returned response into JSON
 
 # variables for you to change how much data is generated
-AMOUNT_OF_USERS = 3000 # Change this to alter the amount of users you want
-AMOUNT_OF_VOLUNTEERS = math.floor(AMOUNT_OF_USERS / 3) # will always be 30% of volunteers to users
+TRAINEES_PER_CLASS = 30 # Change this to alter the amount of trainees you want per class
+VOLUNTEERS_PER_CLASS = 3 # change this to alter the amount of volunteers you want per class
 COHORTS_PER_REGION = 3 # for each region will make this many cohorts
 REGIONS = ["West Midlands", "Scotland", "London", "North West", "Rome", "Cape Town"]
+AMOUNT_OF_REGIONS = len(REGIONS)
 MODULES = {'Intro to Digital': 1, 'Fundamentals': 3, 'Induction and Git': 1, 'HTML/CSS': 4, 'Building a team': 1, 'JavaScript Core 1': 4, 'Communicating in the workplace': 1, 'JavaScript Core 2': 4, 'Presentation Skills': 1, 'JavaScript Core 3': 4, 'Specialization': 1, 'React': 4, 'Preparing for the Job Market': 1, 'Node.js': 3, 'Interview Skills': 1, 'Databases': 4, 'Working in Teams': 1, 'Final Projects': 4, 'Presentations and Demo Day': 1} # dictionary for each module. Key = module name, value = total weeks that module takes.
 START_WEEK = datetime.date(2022, 4, 2) # Should be the first week the course starts. format > YEAR, MONTH, DAY . All ints
 
 path = os.path.join('./server/SQL/data') # directory for all the SQL files
 
 # getting random names from an API
-response = fetch.get(f"http://names.drycodes.com/{AMOUNT_OF_USERS}?nameOptions=starwarsFirstNames") 
+response = fetch.get(f"http://names.drycodes.com/{TRAINEES_PER_CLASS * (COHORTS_PER_REGION * AMOUNT_OF_REGIONS)}?nameOptions=starwarsFirstNames") 
 data = json.loads(response.text) # getting the data from that fetch
 
 # function to make my life easier
@@ -36,26 +37,34 @@ def make_file (table):
   match table:
     case "users":
       usernames = []
+      current_cohort_number = 1
+      current_volunteers = 0
 
       file.write(f"INSERT INTO {table} (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) \nVALUES \n") # Write the INSERT INTO statement 
       # the + 1 is so we can get to the number we want and not one before
-      for i in range(1, AMOUNT_OF_USERS + 1):
-        [first_name, last_name] = data[i - 1].split("_") # getting first and last names seperated
+      for i in range(1, TRAINEES_PER_CLASS * (COHORTS_PER_REGION * AMOUNT_OF_REGIONS)):
         is_volunteer = False
+        [first_name, last_name] = data[i - 1].split("_") # getting first and last names seperated
         username = first_name + last_name # used to make sure we don't add duplicate usernames
 
         # checking if the username exists, if it does then add on a random int
         if username in usernames:
-          print("duplicate username detected, replacing")
+          # print("duplicate username detected, replacing")
           username += str(random.randint(0, 1000000))
 
         usernames.append(username)
 
-        if (i <= AMOUNT_OF_VOLUNTEERS): is_volunteer = True 
+        if (i % TRAINEES_PER_CLASS == 0): 
+          current_cohort_number += 1
+          current_volunteers = 0
+        if (current_volunteers != VOLUNTEERS_PER_CLASS):
+          is_volunteer = True
+          current_volunteers += 1
+          
 
         # every password is "password" just to make life easier 
         # inserting data into the SQL file
-        file.write(f"('{first_name}', '{last_name}', '{'$2b$10$cFIl9HeKhXaTMxPyRWOhAuXqrDz95GuTRFQ7ZND5ljXmU2A/Yx9Fe'}','{username}', {is_volunteer}, {random.randint(1, len(REGIONS) * COHORTS_PER_REGION)}){';' if i == AMOUNT_OF_USERS else ','} \n")
+        file.write(f"('{first_name}', '{last_name}', '{'$2b$10$cFIl9HeKhXaTMxPyRWOhAuXqrDz95GuTRFQ7ZND5ljXmU2A/Yx9Fe'}','{username}', {is_volunteer}, {current_cohort_number}){';' if i == TRAINEES_PER_CLASS * (COHORTS_PER_REGION * AMOUNT_OF_REGIONS) - 1 else ','} \n")
 
     case "cohorts":
       file.write(f"INSERT INTO {table} (number, region_id) \nVALUES \n") # Write the INSERT INTO statement 
