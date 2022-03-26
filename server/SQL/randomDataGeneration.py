@@ -1,7 +1,8 @@
 import os # need so we can get os paths
 import math # math package so I don't have to
 import random # random number generation
-import datetime # used for the weeks table
+import datetime
+from xml.etree.ElementTree import tostring # used for the weeks table
 # fetching data from API
 import requests as fetch # http requests
 import json # converting the returned response into JSON
@@ -34,17 +35,27 @@ def make_file (table):
   # match...case statement so we know what file to change. This is based on the table paramater
   match table:
     case "users":
+      usernames = []
+
       file.write(f"INSERT INTO {table} (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) \nVALUES \n") # Write the INSERT INTO statement 
       # the + 1 is so we can get to the number we want and not one before
       for i in range(1, AMOUNT_OF_USERS + 1):
         [first_name, last_name] = data[i - 1].split("_") # getting first and last names seperated
         is_volunteer = False
+        username = first_name + last_name # used to make sure we don't add duplicate usernames
+
+        # checking if the username exists, if it does then replace it with some random 
+        if username in usernames:
+          print("duplicate username detected, replacing")
+          username += str(random.randint(0, 1000000))
+
+        usernames.append(username)
 
         if (i <= AMOUNT_OF_VOLUNTEERS): is_volunteer = True 
 
         # every password is "password" just to make life easier 
         # inserting data into the SQL file
-        file.write(f"('{first_name}', '{last_name}', '{'$2b$10$cFIl9HeKhXaTMxPyRWOhAuXqrDz95GuTRFQ7ZND5ljXmU2A/Yx9Fe'}','{first_name + last_name}', {is_volunteer}, {random.randint(1, len(REGIONS) * COHORTS_PER_REGION)}){';' if i == AMOUNT_OF_USERS else ','} \n")
+        file.write(f"('{first_name}', '{last_name}', '{'$2b$10$cFIl9HeKhXaTMxPyRWOhAuXqrDz95GuTRFQ7ZND5ljXmU2A/Yx9Fe'}','{username}', {is_volunteer}, {random.randint(1, len(REGIONS) * COHORTS_PER_REGION)}){';' if i == AMOUNT_OF_USERS else ','} \n")
 
     case "cohorts":
       file.write(f"INSERT INTO {table} (number, region_id) \nVALUES \n") # Write the INSERT INTO statement 
