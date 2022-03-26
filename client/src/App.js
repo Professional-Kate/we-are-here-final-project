@@ -7,21 +7,17 @@ import Home from "./Components/layout/HomePage/Home";
 
 
 
+
 const App = () => (
 	<div>
 		<Home />
 
 		<Routes>
 			<Route path="/" element={<LoginForm />} />
-			<Route path="/SignupForm/this/site" element={<SignupForm />} />
 
 			<Route
-				path="/SignupForm/this/site"
-				element={<SignupForm isVolunteer={false} />}
-			/>
-			<Route
-				path="/SignupVolunteer/this/site"
-				element={<SignupForm isVolunteer={true} />}
+				path="/signup"
+				element={<SignupForm />}
 			/>
 		</Routes>
 		{/* <Footer /> */}

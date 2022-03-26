@@ -82,6 +82,7 @@ router.post("/login", (req, res) => {
 						//jsonwebtoken is generated after login success
 						const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 						res.status(200).json({
+							isVolunteer:user.is_volunteer,
 							login: "success",
 							accessToken: token,
 						});

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 
 import "./Form.css";
 
@@ -11,22 +12,49 @@ function LoginForm() {
 	};
 	const [details, setDetails] = useState(initialDetails);
 	const [errors, setErrors] = useState({});
-	const [submit, setSubmit] = useState(false);
 	const [type, setType] = useState("password");
+	const navigate = useNavigate();
 
 	function submitHandler(e) {
 		e.preventDefault();
-		setErrors(validate(details));
-		setSubmit(true);
-	}
+		const errors = validate(details);
+		setErrors(errors);
 
-	useEffect(() => {
 		console.log("errors", errors);
-		if (Object.keys(errors).length === 0 && submit) {
+		if (Object.keys(errors).length === 0) {
+			const data = {
+				username: details.userName,
+				password: details.password,
+			};
+			fetch("api/login", {
+				method: "post",
+				headers: { "Content-Type": "application/json" },
+				credentials: "include",
+				body: JSON.stringify(data),
+			})
+				.then(async(response) => {
+					if (response.status >= 200 && response.status <= 299) {
+						return response.json();
+					} else {
+						throw new Error(await response.text());
+
+					}
+				})
+				.then((data) => {
+					localStorage.setItem("token", data.accessToken);
+					if( data.isVolunteer){
+						navigate("/signup");
+					} else{
+						navigate("/signup");
+					}
+
+				})
+				.catch((error) => setErrors({ password: error.message }));
 			setDetails(initialDetails);
-			console.log("details entered:", details);
 		}
-	}, [details, errors, initialDetails, submit]);
+
+		console.log("details entered:", details);
+	}
 
 	const validate = (details) => {
 		const errors = {};
@@ -42,15 +70,13 @@ function LoginForm() {
 
 	return (
 		<div className="container">
-			{Object.keys(errors).length === 0 && submit ? (
-				<div className="ui msg success">Signed In Successfully</div>
-			) : (
-				""
-			)}
 
 			<div>
 				<p id="new-user-heading" className="new-account-heading">
-					Sign in or <Link to="/SignupForm/this/site">Create an account</Link>
+					Sign in or{" "}
+					<Link className="create-link" to="/SignupForm/this/site">
+						Create an account
+					</Link>
 				</p>
 			</div>
 			<form onSubmit={submitHandler}>
@@ -69,13 +95,6 @@ function LoginForm() {
 					</div>
 					<p className="form__error">{errors.userName}</p>
 					<div className="form-group">
-						<p className="show-password"
-							onClick={() =>
-								setType((type) => (type === "password" ? "text" : "password"))
-							}
-						>
-							Show Password
-						</p>
 						<label htmlFor="password">Password:</label>
 						<input
 							type={type}
@@ -86,6 +105,14 @@ function LoginForm() {
 							}
 							value={details.password}
 						/>
+						<p
+							className="show-password"
+							onClick={() =>
+								setType((type) => (type === "password" ? "text" : "password"))
+							}
+						>
+							Show Password
+						</p>
 					</div>
 
 					<p className="form__error">{errors.password}</p>
