@@ -1,8 +1,7 @@
 import os # need so we can get os paths
 import math # math package so I don't have to
 import random # random number generation
-import datetime
-from xml.etree.ElementTree import tostring # used for the weeks table
+import datetime # used for the weeks table
 # fetching data from API
 import requests as fetch # http requests
 import json # converting the returned response into JSON
@@ -36,9 +35,10 @@ def make_file (table):
   # match...case statement so we know what file to change. This is based on the table paramater
   match table:
     case "users":
-      usernames = []
-      current_cohort_number = 1
-      current_volunteers = 0
+      # how we keep track of how many users we've generated
+      usernames = [] # used to check if the username exists
+      current_cohort_number = 1 # used to track the current cohort number
+      current_volunteers = 0 # used to check how many volunteers we've added per cohort
 
       file.write(f"INSERT INTO {table} (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) \nVALUES \n") # Write the INSERT INTO statement 
       # the + 1 is so we can get to the number we want and not one before
@@ -54,9 +54,11 @@ def make_file (table):
 
         usernames.append(username)
 
+        # every N users run this block. N = TRAINEES_PER_CLASS
         if (i % TRAINEES_PER_CLASS == 0): 
           current_cohort_number += 1
           current_volunteers = 0
+        # checking if our local amount of volunteers = the global amount of volunteers
         if (current_volunteers != VOLUNTEERS_PER_CLASS):
           is_volunteer = True
           current_volunteers += 1
