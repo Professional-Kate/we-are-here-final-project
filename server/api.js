@@ -1,9 +1,7 @@
 import { Router } from "express";
 import pool from "./db";
-backend/create-cohort-endpoint
 
 const jwt = require("jsonwebtoken");
- main
 
 const router = Router();
 const bcrypt = require("bcrypt");
