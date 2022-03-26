@@ -1,5 +1,4 @@
 import os # need so we can get os paths
-import math # math package so I don't have to
 import random # random number generation
 import datetime # used for the weeks table
 # fetching data from API
