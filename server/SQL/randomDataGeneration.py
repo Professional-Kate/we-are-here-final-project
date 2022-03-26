@@ -49,7 +49,7 @@ def make_file (table):
 
         # checking if the username exists, if it does then add on a random int
         if username in usernames:
-          # print("duplicate username detected, replacing")
+          print("duplicate username detected, replacing")
           username += str(random.randint(0, 1000000))
 
         usernames.append(username)
