@@ -11,16 +11,16 @@ router.get("/users", (req, res) => {
 	res.json("hello world");
 });
 
-router.post("/signup/trainee", async (req, res) => {
-	try {
-		//this hides the password
+router.post("/signup", async (req, res) => {
+	try {//this hides the password
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		const newUser = {
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			username: req.body.username,
 			password: hashedPassword,
-			isVolunteer: false,
+			isVolunteer: req.body.isVolunteer,
+			cohortId: req.body.cohortId,
 		};
 		//checking if username already exist
 		pool
@@ -37,11 +37,11 @@ router.post("/signup/trainee", async (req, res) => {
 				) {
 					res
 						.status(400)
-						.send("Password or username must be of 6 or more characters!");
+						.send("Password or username must have 6 or more characters!");
 					//ensuring all fields are completed
 				} else if (newUser.firstName && newUser.lastName) {
 					const query =
-						"INSERT INTO users (first_name, last_name, pass_hash, user_name, is_volunteer) VALUES ($1, $2, $3, $4, $5)";
+						"INSERT INTO users (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) VALUES ($1, $2, $3, $4, $5, $6)";
 					pool
 						.query(query, [
 							newUser.firstName,
@@ -49,6 +49,7 @@ router.post("/signup/trainee", async (req, res) => {
 							newUser.password,
 							newUser.username,
 							newUser.isVolunteer,
+							newUser.cohortId,
 						])
 						.then(() => res.status(200).send("User created successfully!"))
 						.catch((error) => {
