@@ -1,9 +1,8 @@
 import { Router } from "express";
 import pool from "./db";
-backend/create-cohort-endpoint
+//backend/create-cohort-endpoint
 
 const jwt = require("jsonwebtoken");
- main
 
 const router = Router();
 const bcrypt = require("bcrypt");
@@ -111,7 +110,7 @@ router.get("/users", async (req, res) => {
 
 router.get("/cohorts", async (req, res) => {
   try {
-    const cohorts = await pool.query("SELECT regions.name, cohorts.number FROM regions INNER JOIN cohorts ON regions.id = cohorts.region_id");
+    const cohorts = await pool.query("SELECT regions.name AS regionName, cohorts.number AS cohortNumber, regions.id AS regionId FROM regions INNER JOIN cohorts ON regions.id = cohorts.region_id");
     return res.json(cohorts.rows);
   } catch (err) {
     console.error(err.message);

@@ -19,7 +19,6 @@ function LoginForm() {
 		e.preventDefault();
 		const errors = validate(details);
 		setErrors(errors);
-
 		console.log("errors", errors);
 		if (Object.keys(errors).length === 0) {
 			const data = {
@@ -37,15 +36,14 @@ function LoginForm() {
 						return response.json();
 					} else {
 						throw new Error(await response.text());
-
 					}
 				})
 				.then((data) => {
 					localStorage.setItem("token", data.accessToken);
-					if( data.isVolunteer){
-						navigate("/signup");
-					} else{
-						navigate("/signup");
+					if (data.isVolunteer){
+						navigate("/management");
+					} else {
+						navigate("/clockin");
 					}
 
 				})
@@ -105,14 +103,14 @@ function LoginForm() {
 							}
 							value={details.password}
 						/>
-						<p
+						<span
 							className="show-password"
 							onClick={() =>
 								setType((type) => (type === "password" ? "text" : "password"))
 							}
 						>
 							Show Password
-						</p>
+						</span>
 					</div>
 
 					<p className="form__error">{errors.password}</p>

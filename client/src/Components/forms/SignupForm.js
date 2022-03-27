@@ -1,17 +1,20 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./Form.css";
 
-function SignupForm({ isVolunteer }) {
-	console.log(isVolunteer);
+function SignupForm() {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const initialDetails = {
 		role: "",
 		firstName: "",
 		lastName: "",
-		cohort: "",
-		regionName: "",
+		cohort: {
+			regionName: "",
+			regionId: "",
+			cohortNumber: "",
+		},
 		username: "",
 		password: "",
 		confirmPassword: "",
@@ -19,12 +22,14 @@ function SignupForm({ isVolunteer }) {
 	const [details, setDetails] = useState(initialDetails);
 	const [errors, setErrors] = useState({});
 	const [cohorts, setCohorts] = useState([]);
-	const [regions, setRegions] = useState([]);
 
 	useEffect(() => {
-		fetch()
+		fetch("api/cohorts")
+		.then((response) => response.json())
+		.then((data) => setCohorts(data))
+		.catch((err) => console.log(err));
 
-	}, [])
+	}, []);
 
 	function submitHandler(e) {
 		e.preventDefault();
@@ -45,10 +50,11 @@ function SignupForm({ isVolunteer }) {
 			errors.Role = "Role is required";
 		}
 
-		if (!details.Name) {
-			errors.Name = "Name is required";
-		} else if (details.Name.length < 3) {
-			errors.Name = "Please enter your full name";
+		if (!details.firstName) {
+			errors.firstName = "First name is required";
+		}
+		if (!details.lastName) {
+			errors.lastName = "Last name is required";
 		}
 
 		let classes = document.getElementById("classes");
@@ -69,13 +75,13 @@ function SignupForm({ isVolunteer }) {
 			errors.Username = "Username must be 6 or more characters";
 		}
 		if (details.Username.includes(" ")) {
-			errors.Username = "No space required";
+			errors.Username = "No space allowed";
 		}
 
 		if (!details.Password) {
 			errors.Password = "Password is required";
 		} else if (details.Password.length < 6) {
-			errors.Password = "Password is too short";
+			errors.Password = "Password must have 6 or more characters";
 		}
 		if (details.ConfirmPassword !== details.Password) {
 			errors.ConfirmPassword = "Passwords do not match";
@@ -86,9 +92,17 @@ function SignupForm({ isVolunteer }) {
 
 	return (
 		<section className="signup_form">
+			<div>
+				<p id="new-user-heading" className="new-account-heading">
+					Have an account? {" "}
+					<Link className="create-link" to="/">
+						Sign in
+					</Link>
+				</p>
+				</div>
 			<form onSubmit={submitHandler}>
 				<div className="form-inner">
-					<h6>Please select your role as:</h6>
+					<h6>Please select your role:</h6>
 					<div className="form-group">
 						<div className="roles">
 							<div className="trainee__radio">
@@ -111,10 +125,10 @@ function SignupForm({ isVolunteer }) {
 								<label htmlFor="volunteer">Volunteer </label>
 							</div>
 						</div>
-						<p className="form__error">{errors.Role}</p>
+						<p className="form__error">{errors.role}</p>
 					</div>
 					<div className="form-group">
-						<label htmlFor="firstName">Full Name:</label>
+						<label htmlFor="firstName">First Name:</label>
 						<input
 							type="text"
 							name="firstName"
@@ -123,7 +137,7 @@ function SignupForm({ isVolunteer }) {
 							value={details.firstName}
 						/>
 					</div>
-					<p className="form__error">{errors.Name}</p>
+					<p className="form__error">{errors.firstName}</p>
 					<div className="form-group">
 						<label htmlFor="lastName">Last Name:</label>
 						<input
@@ -134,17 +148,23 @@ function SignupForm({ isVolunteer }) {
 							value={details.lastName}
 						/>
 					</div>
-					<p className="form__error">{errors.Name}</p>
+					<p className="form__error">{errors.lastName}</p>
 					<div className="form-group">
 						<label htmlFor="cohort">Cohort:</label>
 						<select onChange={(e) => setDetails({ ...details, cohort: e.target.value })} id="cohort">
-							{<option className="traineeClass" value="select__class">
-								cohort
+							<option className="traineeClass" value="select__class" selected disabled> Select a cohort
 							</option>
+							{cohorts.map((cohort, ind) => {
+								const regionCohort = cohort.regionname + "-" + cohort.cohortnumber;
+								console.log(regionCohort);
+								return <option key={ind} className="traineeClass" value={regionCohort}>
+									{regionCohort}
+								</option>;
+							})
 							}
 						</select>
 					</div>
-					<p className="form__error">{errors.Class}</p>
+					{/* <p className="form__error">{errors.Class}</p>
 					<div className="form-group">
 						<label htmlFor="region">Region:</label>
 						<select id="region">
@@ -152,48 +172,48 @@ function SignupForm({ isVolunteer }) {
 								Region
 							</option>
 						</select>
-					</div>
+					</div> */}
 
-					<p className="form__error">{errors.Region}</p>
+					<p className="form__error">{errors.cohort}</p>
 					<div className="form-group">
-						<label htmlFor="trainee_name">Username:</label>
+						<label htmlFor="trainee_Username">Username:</label>
 						<input
 							type="text"
 							name="trainee_Username"
 							id="trainee_Username"
 							onChange={(e) =>
-								setDetails({ ...details, Username: e.target.value })
+								setDetails({ ...details, username: e.target.value })
 							}
-							value={details.Username}
+							value={details.username}
 						/>
 					</div>
-					<p className="form__error">{errors.Username}</p>
+					<p className="form__error">{errors.username}</p>
 					<div className="form-group">
-						<label htmlFor="trainee_name">Password:</label>
+						<label htmlFor="password">Password:</label>
 						<input
 							type="password"
 							name="password"
 							id="password"
 							onChange={(e) =>
-								setDetails({ ...details, Password: e.target.value })
+								setDetails({ ...details, password: e.target.value })
 							}
-							value={details.Password}
+							value={details.password}
 						/>
 					</div>
-					<p className="form__error">{errors.Password}</p>
+					<p className="form__error">{errors.password}</p>
 					<div className="form-group">
-						<label htmlFor="trainee_name">Confirm Password:</label>
+						<label htmlFor="confirm_password">Confirm Password:</label>
 						<input
 							type="password"
-							name="password"
-							id="password"
+							name="confirm_password"
+							id="confirm_password"
 							onChange={(e) =>
-								setDetails({ ...details, ConfirmPassword: e.target.value })
+								setDetails({ ...details, confirmPassword: e.target.value })
 							}
-							value={details.ConfirmPassword}
+							value={details.confirmPassword}
 						/>
 					</div>
-					<p className="form__error">{errors.ConfirmPassword}</p>
+					<p className="form__error">{errors.confirmPassword}</p>
 					<input
 						type="submit"
 						onClick={submitHandler}
