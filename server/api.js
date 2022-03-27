@@ -110,7 +110,7 @@ router.get("/users", async (req, res) => {
 
 router.get("/cohorts", async (req, res) => {
   try {
-    const cohorts = await pool.query("SELECT regions.name AS regionName, cohorts.number AS cohortNumber, regions.id AS regionId FROM regions INNER JOIN cohorts ON regions.id = cohorts.region_id");
+    const cohorts = await pool.query("SELECT regions.name AS region_name, cohorts.number AS cohort_number, cohorts.id AS cohort_id FROM regions INNER JOIN cohorts ON regions.id = cohorts.region_id");
     return res.json(cohorts.rows);
   } catch (err) {
     console.error(err.message);
