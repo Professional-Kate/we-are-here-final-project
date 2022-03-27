@@ -45,7 +45,7 @@ function SignupForm() {
 			};
 			fetch("api/signup", {
 				method: "post",
-				headers: { "Content-Type": "application/json"},
+				headers: { "Content-Type": "application/json" },
 				credentials: "include",
 				body: JSON.stringify(data),
 			})
@@ -57,10 +57,10 @@ function SignupForm() {
 				}
 			})
 			.then((data) => {
-				console.log(data);
+				console.log(data[0]);
 				navigate("/");
 			})
-			.catch((error) => setErrors({ errors: error.message}) )
+			.catch((error) => setErrors({ password: error.message }));
 		}
 		return	setDetails(initialDetails);
 	}
