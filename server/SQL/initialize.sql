@@ -12,6 +12,7 @@ CREATE TABLE regions(
   id   SERIAL PRIMARY KEY,
   name VARCHAR(30) NOT NULL
 );
+INSERT INTO regions(name) VALUES ('West Midlands'), ('London'), ('Scotland'), ('Manchester');
 
 CREATE TABLE cohorts (
   id                     SERIAL PRIMARY KEY,
@@ -19,6 +20,7 @@ CREATE TABLE cohorts (
   region_id              INT NOT NULL,
   FOREIGN KEY(region_id) REFERENCES regions(id)
 );
+INSERT INTO cohorts (number, region_id) VALUES (1, 1), (2, 1), (3, 1), (1, 2), (2, 2), (3, 2), (4, 2), (1, 3), (2, 3), (1, 4), (2, 4);
 
 CREATE TABLE users (
   id                     SERIAL PRIMARY KEY,

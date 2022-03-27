@@ -1,5 +1,6 @@
 import { Router } from "express";
 import pool from "./db";
+
 const jwt = require("jsonwebtoken");
 
 const router = Router();
@@ -64,6 +65,7 @@ router.post("/signup/trainee", async (req, res) => {
 
 router.post("/login", (req, res) => {
 	const username = req.body.username;
+	console.log(username);
 	let user;
 	pool //checking if username exist in the database
 		.query("SELECT * FROM users WHERE user_name=$1", [username])
@@ -82,6 +84,7 @@ router.post("/login", (req, res) => {
 						//jsonwebtoken is generated after login success
 						const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 						res.status(200).json({
+							isVolunteer:user.is_volunteer,
 							login: "success",
 							accessToken: token,
 						});
@@ -94,4 +97,27 @@ router.post("/login", (req, res) => {
 		.catch((error) => res.status(500).send(error));
 });
 
+router.get("/users", async (req, res) => {
+  try {
+    const users = await pool.query("SELECT first_name, last_name, user_name, cohort_id OR first_name, last_name, is_volunteer FROM users");
+    return res.json(users.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+
+
+router.get("/cohorts", async (req, res) => {
+  try {
+    const cohorts = await pool.query("SELECT regions.name, cohorts.number FROM regions INNER JOIN cohorts ON regions.id = cohorts.region_id");
+    return res.json(cohorts.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+
 export default router;
+
+
