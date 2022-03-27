@@ -1,6 +1,9 @@
 import { Router } from "express";
 import pool from "./db";
+signup-integration
 //backend/create-cohort-endpoint
+
+ main
 
 const jwt = require("jsonwebtoken");
 
@@ -67,6 +70,7 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", (req, res) => {
 	const username = req.body.username;
+	console.log(username);
 	let user;
 	pool //checking if username exist in the database
 		.query("SELECT * FROM users WHERE user_name=$1", [username])
