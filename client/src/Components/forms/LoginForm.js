@@ -103,14 +103,10 @@ function LoginForm() {
 							}
 							value={details.password}
 						/>
-						<span
-							className="show-password"
-							onClick={() =>
-								setType((type) => (type === "password" ? "text" : "password"))
-							}
-						>
-							Show Password
-						</span>
+						<i className="show-password bi bi-x-diamond-fill" role="button"
+							tabIndex="0" onClick={() =>
+							setType((type) => (type === "password" ? "text" : "password"))} onKeyPress={() =>
+							setType((type) => (type === "password" ? "text" : "password")) }>Show</i>
 					</div>
 
 					<p className="form__error">{errors.password}</p>

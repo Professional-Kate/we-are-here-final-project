@@ -93,14 +93,15 @@ function SignupForm() {
 	return (
 		<section className="signup_form">
 			<div>
-				<p id="new-user-heading" className="new-account-heading">
-					Have an account? {" "}
-					<Link className="create-link" to="/">
-						Sign in
-					</Link>
-				</p>
+					<p id="new-user-heading" className="new-account-heading">
+						Have an account? {" "}
+						<Link className="create-link" to="/">
+							Sign in
+						</Link>
+					</p>
 				</div>
 			<form onSubmit={submitHandler}>
+				
 				<div className="form-inner">
 					<h6>Please select your role:</h6>
 					<div className="form-group">
@@ -151,9 +152,8 @@ function SignupForm() {
 					<p className="form__error">{errors.lastName}</p>
 					<div className="form-group">
 						<label htmlFor="cohort">Cohort:</label>
-						<select onChange={(e) => setDetails({ ...details, cohort: e.target.value })} id="cohort">
-							<option className="traineeClass" value="select__class" selected disabled> Select a cohort
-							</option>
+						<select value="Select a cohort" onChange={(e) => setDetails({ ...details, cohort: e.target.value })} id="cohort">
+							<option className="cohort" disabled>Select a cohort</option>
 							{cohorts.map((cohort, ind) => {
 								const regionCohort = cohort.regionname + "-" + cohort.cohortnumber;
 								console.log(regionCohort);
@@ -164,23 +164,13 @@ function SignupForm() {
 							}
 						</select>
 					</div>
-					{/* <p className="form__error">{errors.Class}</p>
-					<div className="form-group">
-						<label htmlFor="region">Region:</label>
-						<select id="region">
-							<option className="traineeRegion" value="select__region">
-								Region
-							</option>
-						</select>
-					</div> */}
-
 					<p className="form__error">{errors.cohort}</p>
 					<div className="form-group">
-						<label htmlFor="trainee_Username">Username:</label>
+						<label htmlFor="username">Username:</label>
 						<input
 							type="text"
-							name="trainee_Username"
-							id="trainee_Username"
+							name="username"
+							id="username"
 							onChange={(e) =>
 								setDetails({ ...details, username: e.target.value })
 							}
