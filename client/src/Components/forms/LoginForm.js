@@ -18,7 +18,6 @@ function LoginForm() {
 		e.preventDefault();
 		const errors = validate(details);
 		setErrors(errors);
-
 		console.log("errors", errors);
 		if (Object.keys(errors).length === 0) {
 			const data = {
@@ -40,10 +39,10 @@ function LoginForm() {
 				})
 				.then((data) => {
 					localStorage.setItem("token", data.accessToken);
-					if (data.isVolunteer) {
-						navigate("/signup");
+					if (data.isVolunteer){
+						navigate("/management");
 					} else {
-						navigate("/signup");
+						navigate("/clockin");
 					}
 				})
 				.catch((error) => setErrors({ password: error.message }));
@@ -70,7 +69,7 @@ function LoginForm() {
 			<div>
 				<p id="new-user-heading" className="new-account-heading">
 					Sign in or{" "}
-					<Link className="create-link" to="/SignupForm/this/site">
+					<Link className="create-link" to="/signup">
 						Create an account
 					</Link>
 				</p>
@@ -119,6 +118,11 @@ function LoginForm() {
 							value="Sign In"
 							className="btn"
 						/>
+
+						<i className="show-password bi bi-x-diamond-fill" role="button"
+							tabIndex="0" onClick={() =>
+							setType((type) => (type === "password" ? "text" : "password"))} onKeyPress={() =>
+							setType((type) => (type === "password" ? "text" : "password")) }>Show</i>
 					</div>
 				</form>
 			</div>

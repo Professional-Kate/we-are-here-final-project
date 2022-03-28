@@ -4,7 +4,6 @@ body{
   backdrop-filter: blur(2px);
   background-repeat: no-repeat;
   background-size: 100%; 
-  width: 100%;
   
 }
 
@@ -21,7 +20,7 @@ body{
 .show-password{
   cursor: pointer;
   position: relative;
-  left:110px;
+  left:130px;
   bottom: 25px;
   font-size: 11px;
   color: rgb(119, 117, 117);
@@ -86,6 +85,7 @@ h2{
   position: relative;
   top: 5rem;
   left: 60%;
+
 }
 
 /*errors for empty inputs*/
@@ -94,7 +94,7 @@ h2{
 }
 
 .signup_form{
-    position:relative;
+    position:right;
     text-align: center;
 }
 .form-inner{
