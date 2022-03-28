@@ -4,7 +4,7 @@ import LoginForm from "./Components/forms/LoginForm";
 import Home from "./Components/layout/HomePage/Home";
 
 import { Footer } from "./Components/layout/footer/Footer";
-// import Footer from "./Components/layout/footer/Footer";
+import Footer from "./Components/layout/footer/Footer";
 import LogOut from "./Components/layout/LogOut/LogOut";
 
 
