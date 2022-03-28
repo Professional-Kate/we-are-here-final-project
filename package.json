@@ -75,7 +75,9 @@
 		"helmet": "^5.0.2",
 		"jsonwebtoken": "^8.5.1",
 		"morgan": "^1.10.0",
-		"pg": "^8.7.3"
+		"pg": "^8.7.3",
+		"react-icons": "^4.3.1",
+		"reacticons": "^0.0.1"
 	},
 	"engines": {
 		"node": "^12 || ^14 || ^16",
