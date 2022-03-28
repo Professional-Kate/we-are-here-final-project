@@ -1,9 +1,5 @@
 import { Router } from "express";
 import pool from "./db";
-signup-integration
-//backend/create-cohort-endpoint
-
- main
 
 const jwt = require("jsonwebtoken");
 
