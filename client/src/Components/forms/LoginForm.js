@@ -19,7 +19,6 @@ function LoginForm() {
 		e.preventDefault();
 		const errors = validate(details);
 		setErrors(errors);
-
 		console.log("errors", errors);
 		if (Object.keys(errors).length === 0) {
 			const data = {
@@ -37,15 +36,14 @@ function LoginForm() {
 						return response.json();
 					} else {
 						throw new Error(await response.text());
-
 					}
 				})
 				.then((data) => {
 					localStorage.setItem("token", data.accessToken);
-					if( data.isVolunteer){
-						navigate("/signup");
-					} else{
-						navigate("/signup");
+					if (data.isVolunteer){
+						navigate("/management");
+					} else {
+						navigate("/clockin");
 					}
 
 				})
@@ -74,7 +72,7 @@ function LoginForm() {
 			<div>
 				<p id="new-user-heading" className="new-account-heading">
 					Sign in or{" "}
-					<Link className="create-link" to="/SignupForm/this/site">
+					<Link className="create-link" to="/signup">
 						Create an account
 					</Link>
 				</p>
@@ -105,14 +103,10 @@ function LoginForm() {
 							}
 							value={details.password}
 						/>
-						<p
-							className="show-password"
-							onClick={() =>
-								setType((type) => (type === "password" ? "text" : "password"))
-							}
-						>
-							Show Password
-						</p>
+						<i className="show-password bi bi-x-diamond-fill" role="button"
+							tabIndex="0" onClick={() =>
+							setType((type) => (type === "password" ? "text" : "password"))} onKeyPress={() =>
+							setType((type) => (type === "password" ? "text" : "password")) }>Show</i>
 					</div>
 
 					<p className="form__error">{errors.password}</p>

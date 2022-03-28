@@ -1,4 +1,6 @@
-
+.list-navbar{
+  margin-left: 10rem;
+}
 li{
   display: inline;
   padding-left: 50px;
@@ -8,7 +10,7 @@ li{
 li a{
   color: black;
   text-decoration: none;
-  padding:90px;
+  padding:70px;
   transition: .5s ease;
 }
 

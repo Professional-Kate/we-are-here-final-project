@@ -6,6 +6,7 @@ body{
   -webkit-backdrop-filter: blur(100px);
   backdrop-filter: blur(10px);
   margin-top: 10px;
+  width: 80%;
   
 }
 
@@ -23,7 +24,7 @@ body{
 .show-password{
   cursor: pointer;
   position: relative;
-  left:110px;
+  left:130px;
   bottom: 25px;
   font-size: 11px;
   color: rgb(119, 117, 117);
@@ -86,9 +87,9 @@ h2{
   font-size: 20px;
   font-weight: 500;
   color: black;
-  position: relative;
-  left: 750px;
-  top: 50px;
+  position: absolute;
+  left: 680px;
+  top: 100px;
 }
 
 /*errors for empty inputs*/
@@ -221,15 +222,16 @@ form .form-inner input[type="submit"]:hover {
 /*-------------------------until here------------------ */
 
 .signup_form{
-    position:relative;
+    position:right;
     text-align: center;
     margin: 20px;
     font-size: 16px;
+    background-color: blanchedalmond;
 }
 .form-inner{
     position: absolute;
     top: 160%;
-    left:75%;
+    left:85%;
     transform: translate(-50%);
     width: auto;
     background: silver;
