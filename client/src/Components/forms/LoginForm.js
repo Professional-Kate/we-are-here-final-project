@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-
 import "./Form.css";
 
 function LoginForm() {
@@ -31,7 +30,7 @@ function LoginForm() {
 				credentials: "include",
 				body: JSON.stringify(data),
 			})
-				.then(async(response) => {
+				.then(async (response) => {
 					if (response.status >= 200 && response.status <= 299) {
 						return response.json();
 					} else {
@@ -45,7 +44,6 @@ function LoginForm() {
 					} else {
 						navigate("/clockin");
 					}
-
 				})
 				.catch((error) => setErrors({ password: error.message }));
 			setDetails(initialDetails);
@@ -67,8 +65,7 @@ function LoginForm() {
 	};
 
 	return (
-		<div className="container">
-
+		<section className="form__container">
 			<div>
 				<p id="new-user-heading" className="new-account-heading">
 					Sign in or{" "}
@@ -77,48 +74,59 @@ function LoginForm() {
 					</Link>
 				</p>
 			</div>
-			<form onSubmit={submitHandler}>
-				<div className="form-inner">
-					<div className="form-group">
-						<label htmlFor="name">Username:</label>
+			<div>
+				<form onSubmit={submitHandler}>
+					<div className="form-inner">
+						<div className="form-group">
+							<label htmlFor="name">Username:</label>
+							<input
+								type="text"
+								name="name"
+								id="name"
+								onChange={(e) =>
+									setDetails({ ...details, userName: e.target.value })
+								}
+								value={details.userName}
+							/>
+						</div>
+						<p className="form__error">{errors.userName}</p>
+						<div className="form-group">
+							<label htmlFor="password">Password:</label>
+							<input
+								type={type}
+								name="password"
+								id="password"
+								onChange={(e) =>
+									setDetails({ ...details, password: e.target.value })
+								}
+								value={details.password}
+							/>
+							<p
+								className="show-password"
+								onClick={() =>
+									setType((type) => (type === "password" ? "text" : "password"))
+								}
+							>
+								Show Password
+							</p>
+						</div>
+
+						<p className="form__error">{errors.password}</p>
 						<input
-							type="text"
-							name="name"
-							id="name"
-							onChange={(e) =>
-								setDetails({ ...details, userName: e.target.value })
-							}
-							value={details.userName}
+							type="submit"
+							onClick={submitHandler}
+							value="Sign In"
+							className="btn"
 						/>
-					</div>
-					<p className="form__error">{errors.userName}</p>
-					<div className="form-group">
-						<label htmlFor="password">Password:</label>
-						<input
-							type={type}
-							name="password"
-							id="password"
-							onChange={(e) =>
-								setDetails({ ...details, password: e.target.value })
-							}
-							value={details.password}
-						/>
+
 						<i className="show-password bi bi-x-diamond-fill" role="button"
 							tabIndex="0" onClick={() =>
 							setType((type) => (type === "password" ? "text" : "password"))} onKeyPress={() =>
 							setType((type) => (type === "password" ? "text" : "password")) }>Show</i>
 					</div>
-
-					<p className="form__error">{errors.password}</p>
-					<input
-						type="submit"
-						onClick={submitHandler}
-						value="Sign In"
-						className="btn"
-					/>
-				</div>
-			</form>
-		</div>
+				</form>
+			</div>
+		</section>
 	);
 }
 
