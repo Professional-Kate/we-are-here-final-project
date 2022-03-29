@@ -84,7 +84,7 @@ router.post("/login", (req, res) => {
 						//jsonwebtoken is generated after login success
 						const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
 						res.status(200).json({
-							isVolunteer:user.is_volunteer,
+							isVolunteer: user.is_volunteer,
 							login: "success",
 							accessToken: token,
 						});
@@ -117,7 +117,9 @@ router.get("/cohorts", async (req, res) => {
   }
 });
 
+router.get("/clock-in", authentication(), (req, res) => {
 
+});
 export default router;
 
 

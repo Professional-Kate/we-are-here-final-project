@@ -1,5 +1,6 @@
 import helmet from "helmet";
 import path from "path";
+import { Pool } from "pg/lib";
 const { verify } = require("jsonwebtoken"); // use this to decode the token. We only use verify which is why I deconstructed it
 
 export const configuredHelmet = () =>
@@ -40,7 +41,6 @@ export const pushStateRouting = (apiRoot, staticDir) => (req, res, next) => {
 // middleware function that authenticates users based on the req.headers
 export const authentication = (userType) => (req, res, next) => {
 	// message templates to make life a tad easier
-	const successMessage = { success: true, message: `Welcome ${userType}.` };
 	const failureMessage = {
 		success: false,
 		message: "Trainee's aren't authorized to view this page.",
@@ -53,7 +53,7 @@ export const authentication = (userType) => (req, res, next) => {
 	}
 
 	const token = bearerToken.split("Bearer ")[1]; // only getting the token string from the header
-
+	res.locals.token = token;
 	// verify the token
 	const isVolunteer = verify(
 		token,
@@ -79,7 +79,7 @@ export const authentication = (userType) => (req, res, next) => {
 			// if the page is a volunteer page
 			if (isVolunteer) {
 				// the person who requested is a volunteer
-				res.status(201).json(successMessage);
+				next();
 			} else {
 				// the person who requested is a volunteer
 				res.status(401).json(failureMessage);
@@ -89,13 +89,10 @@ export const authentication = (userType) => (req, res, next) => {
 			// if the page is a trainee page
 			if (isVolunteer) {
 				// the person is a volunteer
-				res.status(201).json({
-					...successMessage,
-					message: "Welcome volunteer to a trainee page!",
-				});
+				next();
 			} else {
 				// the person is a trainee
-				res.status(201).json(successMessage);
+				next();
 			}
 			break;
 		default:
