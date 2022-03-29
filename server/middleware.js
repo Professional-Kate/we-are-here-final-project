@@ -1,6 +1,5 @@
 import helmet from "helmet";
 import path from "path";
-import { Pool } from "pg/lib";
 const { verify } = require("jsonwebtoken"); // use this to decode the token. We only use verify which is why I deconstructed it
 
 export const configuredHelmet = () =>

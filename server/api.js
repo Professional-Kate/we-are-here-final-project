@@ -117,9 +117,6 @@ router.get("/cohorts", async (req, res) => {
   }
 });
 
-router.get("/clock-in", authentication(), (req, res) => {
-
-});
 export default router;
 
 

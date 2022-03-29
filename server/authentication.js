@@ -1,9 +1,7 @@
 import { Router } from "express";
 import { authentication } from "./middleware";
 import cors from "cors";
-import { verify } from "jsonwebtoken";
 import { Pool } from "./db";
-import moment from "moment";
 
 const auth = Router();
 auth.use(cors());
