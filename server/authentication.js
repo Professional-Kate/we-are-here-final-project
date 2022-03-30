@@ -1,37 +1,47 @@
 import { Router } from "express";
 import { authentication } from "./middleware";
 import cors from "cors";
-import { Pool } from "./db";
+import pool from "./db";
+import { verify } from "jsonwebtoken";
 
 const auth = Router();
 auth.use(cors());
 
 // Will run before every endpoint starting with /validate
 auth.post("/validate/volunteer", authentication("volunteer"));
+
 auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     const token = res.locals.token;
-    // const user = verify(
-    //     token,
-    //     process.env.ACCESS_TOKEN_SECRET,
-    //     (err, decoded) => {
-    //         if (!err) {
-    //             return decoded;
-    //         }
-    //         return "Token is not valid";
-    //     }
-    // );
-    const userId = token.id;
-    const timeStamp = req.body.timeIn;
-    const dateIn = timeStamp.getDate();
-    const month = timeStamp.getMonth() + 1;
-    const year = timeStamp.getYear();
-    const hourIn = timeStamp.getHours();
-    const minutesIn = timeStamp.getMinutes();
+    const user = verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        (err, decoded) => {
+            if (!err) {
+                return decoded;
+            }
+            return "Token is not valid";
+        }
+    );
+    const userId = user.id;
+    console.log(token);
+    console.log("this is userId", userId);
+    const time = new Date(req.body.timeIn);
+    const dateIn = time.getDate();
+    console.log("date", dateIn);
+    const month = time.getMonth() + 1;
+    console.log("month",month);
+    const year = time.getFullYear();
+    console.log("year",year);
+    const hourIn = time.getHours() - 1;
+    console.log("hour", hourIn);
+    const minutesIn = time.getMinutes();
+    console.log("minute", minutesIn);
     function pad(n) {
         return n < 10 ? "0" + n : n;
     }
+    console.log("this is pool", pool);
     const fullDate = `${year}-${pad(month)}-${pad(dateIn)}`;
-    Pool
+    pool
     //checking if clock-in date matches class session date on database
     .query("SELECT * FROM weeks WHERE week_date=$1", [fullDate])
     .then((result) => {
@@ -45,16 +55,16 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
             res.status(400).json({ msg: "Sorry, There is no class to join!" });
         } else {
             const weekId = result.row[0].id;
+            console.log(weekId);
             const query = "INSERT INTO volunteer_flags (clockin_time, user_id, week_id) VALUES($1, $2, $3)";
-            const valueArr = [timeStamp, userId, weekId];
+            const valueArr = [time, userId, weekId];
             if (hourIn === 9 && minutesIn >= 45 || hourIn === 10 && minutesIn <= 15) {
-                Pool
+                pool
                     //registering trainee clock-in time to database
                     .query(query, valueArr)
                     .then(() => res.status(200).json({ msg: "Thank you for joining the class" }));
-            }
-            if (hourIn === 10 && minutesIn > 15 || hourIn > 10 || hourIn === 14 && minutesIn <= 59) {
-                Pool
+            } else if (hourIn === 10 && minutesIn > 15 || hourIn > 10 || hourIn === 14 && minutesIn <= 59) {
+                pool
                     //registering trainee clock-in time to database
                     .query(query, valueArr)
                     .then(() => res.status(200).json({ msg: "You are late today." }));
