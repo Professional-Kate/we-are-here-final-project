@@ -85,19 +85,11 @@ export const authentication = (userType) => (req, res, next) => {
 			}
 			break;
 		case "trainee":
-			// if the page is a trainee page
-			if (isVolunteer) {
-				// the person is a volunteer
-				next();
-			} else {
-				// the person is a trainee
-				next();
-			}
+			next();
 			break;
 		default:
 			// users type doesn't match anything
 			res.status(401).json(failureMessage);
 			break;
 	}
-	next();
 };
