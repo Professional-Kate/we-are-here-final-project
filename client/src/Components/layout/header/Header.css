@@ -1,19 +1,12 @@
+ .logout-button{
+    position: absolute;
+    width: 8rem;
+    height: 12rem;
+    top: -4rem;
+    right: 1rem;
+    display: flex;
 
-li{
-  display: inline;
-  padding-left: 50px;
-  margin-top: 5px;
-}
-
-li a{
-  color: black;
-  text-decoration: none;
-  padding:90px;
-  transition: .5s ease;
-}
-
-
-li a:hover{
-  color: #d12f2f;
-
-}
+    /* to center the text */
+    justify-content: center;
+    align-items: center;
+ }
