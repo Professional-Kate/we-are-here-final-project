@@ -52,13 +52,16 @@ export const authentication = (userType) => (req, res, next) => {
 	}
 
 	const token = bearerToken.split(" ")[1]; // only getting the token string from the header
+
 	res.locals.token = token;
+
 	// verify the token
 	const isVolunteer = verify(
 		token,
 		process.env.ACCESS_TOKEN_SECRET,
 		(err, decoded) => {
 			if (!err) {
+				res.locals.token = decoded; // setting this here so we can use it in the other script
 				return decoded.is_volunteer;
 			}
 			return "Token is not valid";
@@ -85,6 +88,7 @@ export const authentication = (userType) => (req, res, next) => {
 			}
 			break;
 		case "trainee":
+			// if the page is a trainee page
 			next();
 			break;
 		default:
