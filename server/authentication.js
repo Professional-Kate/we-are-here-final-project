@@ -9,7 +9,42 @@ auth.use(cors());
 
 // Will run before every endpoint starting with /validate
 auth.post("/validate/volunteer", authentication("volunteer"));
-auth.get("/validate/volunteer", authentication("volunteer"));
+auth.get("/trainee/ongoing-class", authentication("volunteer"), (req, res) => {
+    const token = res.locals.token;
+    const user = verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        (err, decoded) => {
+            if (!err) {
+                return decoded;
+            }
+            return "Token is not valid";
+        }
+    );
+    const userId = user.id;
+    const time = new Date();
+    const dateIn = time.getDate();
+    const month = time.getMonth() + 1;
+    const year = time.getFullYear();
+    function pad(n) {
+        return n < 10 ? "0" + n : n;
+    }
+    const fullDate = `${year}-${pad(month)}-${pad(dateIn)}`;
+    pool
+    .query("SELECT * FROM weeks WHERE week_date=$1", [fullDate])
+    .then((result) => {
+        if (result.rows.length !== 1) {
+            return res.status(200).json({});
+        } else {
+            const weekId = result.rows[0].id;
+            const query = "SELECT regions.name AS region, cohorts.number AS cohort_no, weeks.week_date, weeks.start_time, weeks.end_time, modules.name AS module, volunteer_flags.clockin_time FROM users INNER JOIN cohorts ON users.cohort_id=cohorts.id INNER JOIN regions ON regions.id=cohorts.region_id INNER JOIN volunteer_flags ON volunteer_flags.user_id=users.id INNER JOIN weeks ON volunteer_flags.week_id=weeks.id INNER JOIN modules ON weeks.module_id=modules.id WHERE weeks.id=$1 AND users.id=$2";
+            pool
+            .query(query, [weekId, userId])
+            .then((result1) => res.status(200).json(result1.rows[0]))
+            .catch((err) => console.log(err));
+        }
+    });
+});
 
 auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     const token = res.locals.token;
@@ -34,7 +69,6 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
         return n < 10 ? "0" + n : n;
     }
     const fullDate = `${year}-${pad(month)}-${pad(dateIn)}`;
-    //---May have to write another pool here to check if user has already clocked in or not---
     //checking if clock-in date matches class session date on database
     pool
         .query("SELECT * FROM weeks WHERE week_date=$1", [fullDate])
@@ -49,6 +83,7 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
                 return res.status(400).json({ msg: "Sorry, There is no class to join!" });
             } else {
                 const weekId = result.rows[0].id;
+                //Checking if the trainee has already clocked in or not
                 const queryCheck = "SELECT user_id FROM volunteer_flags WHERE week_id=$1 AND user_id=$2";
                 pool
                     .query(queryCheck, [weekId, userId])
