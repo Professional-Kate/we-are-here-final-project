@@ -45,13 +45,15 @@ export const authentication = (userType) => (req, res, next) => {
 		message: "Trainee's aren't authorized to view this page.",
 	};
 
-	const bearerToken = req.headers.authorization;
+	const bearerToken = req.headers["authorization"];
 
 	if (!bearerToken) {
 		return res.status(400).json({ ...failureMessage, message: "No token" });
 	}
 
 	const token = bearerToken.split(" ")[1]; // only getting the token string from the header
+
+	res.locals.token = token;
 
 	// verify the token
 	const isVolunteer = verify(
