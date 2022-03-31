@@ -27,7 +27,6 @@ auth.get("/class/data", authentication("volunteer"), async (req, res) => {
 
   rows.length === 0 ? res.status(200).json({}) : res.status(200).json({ ...rows[0], users: usersData.rows });
 });
-export default auth;
 
 auth.post("/validate/volunteer", authentication("volunteer"));
 
