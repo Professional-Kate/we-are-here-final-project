@@ -9,7 +9,7 @@ auth.use(cors());
 
 // Will run before every endpoint starting with /validate
 auth.post("/validate/volunteer", authentication("volunteer"));
-auth.get("/trainee/ongoing-class", authentication("volunteer"), (req, res) => {
+auth.get("/trainee/ongoing-class", authentication("trainee"), (req, res) => {
     const token = res.locals.token;
     const user = verify(
         token,
