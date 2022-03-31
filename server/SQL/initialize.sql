@@ -61,7 +61,7 @@ CREATE TABLE volunteer_flags (
   absent               BOOLEAN DEFAULT FALSE NOT NULL, 
   left_early           BOOLEAN DEFAULT FALSE NOT NULL, 
   other_comments       TEXT,
-  clockin_time         TIMESTAMP,
+  clockin_time         TIME,
   user_id              INT NOT NULL,
   week_id              INT NOT NULL,
   FOREIGN KEY(user_id) REFERENCES users(id),
