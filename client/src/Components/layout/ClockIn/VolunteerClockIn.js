@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import dayjs from "dayjs";
 
 const reactData = {
 	cohort: "wm3",
@@ -26,8 +27,12 @@ const reactData = {
 
 function VolunteerClockIn() {
 	// data to data base
+
+	const [cohortClass, setCohortClass] = useState(reactData);
+	console.log(cohortClass);
 	const [trainees, setTrainees] = useState(reactData.trainees);
 	const [cohorts, setCohorts] = useState([]);
+
 
 	useEffect(() => {
 		fetch("api/cohorts")
@@ -38,9 +43,30 @@ function VolunteerClockIn() {
 	console.log(cohorts);
 	const [searchValues, setSearchValues] = useState({
 		// null will be based on token
-		cohort_id: null,
-		date: "",
+		cohort_id: 0,
+		date: dayjs(new Date()).format("YYYY-MM-DD"),
 	});
+	const onSearchClass=()=>{
+		fetch("api/class/data"
+			// method: "",
+			// headers: { "Content-Type": "application/json" },
+			// credentials: "include",
+			// body: JSON.stringify(searchValues),
+)
+			.then((response) => {
+				if (response.status >= 200 && response.status <= 209) {
+					return response.json();
+				} else {
+					throw new Error(response.text());
+				}
+			})
+			.then((data) => {
+				setCohortClass(data);
+				setTrainees(data.trainees);
+
+			})
+			.catch((error) => console.log(error));
+	};
 	const onChangeTrainees = (event, index) => {
 		setTrainees(
 			trainees.map((trainee, i) => {
@@ -75,13 +101,24 @@ function VolunteerClockIn() {
 							"-" +
 							cohort.cohort_number;
 						return (
-							<option key={cohort.cohort_id} className="traineeClass" value={regionCohort}>
-									{regionCohort}
-								</option>
+							<option
+								key={cohort.cohort_id}
+								className="traineeClass"
+								value={cohort.cohort_id}
+							>
+								{regionCohort}
+							</option>
 						);
 					})}
 				</select>
-
+				<input
+					type="date"
+					value={searchValues.date}
+					onChange={(event) =>
+						setSearchValues({ ...searchValues, date: event.target.value })
+					}
+				/>
+				<button onClick ={onSearchClass }>Search</button>
 			</div>
 
 			<table>
@@ -96,6 +133,7 @@ function VolunteerClockIn() {
 					</tr>
 				</thead>
 				<tbody>
+					{/* onChange handler */}
 					{trainees.map((trainee, i) => {
 						return (
 							<tr key={trainee.firstName}>
@@ -154,12 +192,12 @@ function VolunteerClockIn() {
 				</tbody>
 			</table>
 
-			<input
+			{/* <input
 				type="submit"
 				// onClick={submitHandler}
 				value="Submit"
 				className="btn"
-			/>
+			/> */}
 		</div>
 	);
 }

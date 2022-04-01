@@ -49,11 +49,11 @@ function SignupForm() {
 				credentials: "include",
 				body: JSON.stringify(data),
 			})
-			.then((response) => {
+			.then(async (response) => {
 				if (response.status >= 200 && response.status <= 209) {
-					return response.json();
+					return response.text();
 				} else {
-					throw new Error(response.text());
+					throw new Error(await response.text());
 				}
 			})
 			.then((data) => {
