@@ -1,0 +1,9 @@
+.home__page{
+    display:flex;
+    flex-direction: column;
+}
+.header_line{
+    color:#d12f2f;
+    width: 80%;
+    margin: 0 auto;
+}
