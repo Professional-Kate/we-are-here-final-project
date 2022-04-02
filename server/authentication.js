@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { json, Router } from "express";
 import { authentication } from "./middleware";
 import cors from "cors";
 import pool from "./db";
@@ -9,7 +9,7 @@ auth.use(cors());
 
 // Will run before every endpoint starting with /validate
 auth.post("/validate/volunteer", authentication("volunteer"));
-auth.get("/trainee/ongoing-class", authentication("trainee"), (req, res) => {
+auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) => {
     const token = res.locals.token;
     const user = verify(
         token,
@@ -30,20 +30,20 @@ auth.get("/trainee/ongoing-class", authentication("trainee"), (req, res) => {
         return n < 10 ? "0" + n : n;
     }
     const fullDate = `${year}-${pad(month)}-${pad(dateIn)}`;
-    pool
-    .query("SELECT * FROM weeks WHERE week_date=$1", [fullDate])
-    .then((result) => {
-        if (result.rows.length !== 1) {
-            return res.status(200).json({});
-        } else {
+    //checking if the user has clocked in
+    const result = await pool.query("SELECT volunteer_flags.user_id, weeks.id FROM volunteer_flags INNER JOIN weeks on volunteer_flags.week_id=weeks.id WHERE user_id=$1 AND weeks.week_date=$2", [userId, fullDate]);
+    if (result.rows.length !== 1) {
+        return res.status(400).json({ msg: "You have not clocked in yet! Please clock in." });
+    } else {
+        try {
             const weekId = result.rows[0].id;
-            const query = "SELECT regions.name AS region, cohorts.number AS cohort_no, weeks.week_date, weeks.start_time, weeks.end_time, modules.name AS module, volunteer_flags.clockin_time FROM users INNER JOIN cohorts ON users.cohort_id=cohorts.id INNER JOIN regions ON regions.id=cohorts.region_id INNER JOIN volunteer_flags ON volunteer_flags.user_id=users.id INNER JOIN weeks ON volunteer_flags.week_id=weeks.id INNER JOIN modules ON weeks.module_id=modules.id WHERE weeks.id=$1 AND users.id=$2";
-            pool
-            .query(query, [weekId, userId])
-            .then((result1) => res.status(200).json(result1.rows[0]))
-            .catch((err) => console.log(err));
-        }
-    });
+            const query = "SELECT users.id AS user_id, CONCAT(regions.name, '-', cohorts.number) AS cohort, weeks.week_date, weeks.start_time, weeks.end_time, modules.name AS module, volunteer_flags.clockin_time FROM users INNER JOIN cohorts ON users.cohort_id = cohorts.id 	INNER JOIN regions ON regions.id = cohorts.region_id LEFT JOIN volunteer_flags ON volunteer_flags.user_id = users.id RIGHT JOIN weeks ON volunteer_flags.week_id = weeks.id INNER JOIN modules ON weeks.module_id = modules.id WHERE weeks.id = $1 AND users.id = $2";
+            const result1 = await pool.query(query, [weekId, userId]);
+                return res.status(200).json(result1.rows[0]);
+            } catch (err) {
+                console.err(err);
+            }
+    }
 });
 
 auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
