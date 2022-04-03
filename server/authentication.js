@@ -21,7 +21,7 @@ auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) =
             return "Token is not valid";
         }
     );
-    const userId = user.id;
+    const cohortId = user.cohort_id;
     const time = new Date();
     const dateIn = time.getDate();
     const month = time.getMonth() + 1;
@@ -30,15 +30,15 @@ auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) =
         return n < 10 ? "0" + n : n;
     }
     const fullDate = `${year}-${pad(month)}-${pad(dateIn)}`;
-    //checking if the user has clocked in
-    const result = await pool.query("SELECT volunteer_flags.user_id, weeks.id FROM volunteer_flags INNER JOIN weeks on volunteer_flags.week_id=weeks.id WHERE user_id=$1 AND weeks.week_date=$2", [userId, fullDate]);
+    //checking if there is an ongoing class for the user's cohort
+    const result = await pool.query("SELECT id, cohort_id FROM weeks WHERE cohort_id=$1 AND week_date=$2", [cohortId, fullDate]);
     if (result.rows.length !== 1) {
-        return res.status(400).json({ msg: "You have not clocked in yet! Please clock in." });
+        return res.status(200).json({});
     } else {
         try {
             const weekId = result.rows[0].id;
-            const query = "SELECT users.id AS user_id, CONCAT(regions.name, '-', cohorts.number) AS cohort, weeks.week_date, weeks.start_time, weeks.end_time, modules.name AS module, volunteer_flags.clockin_time FROM users INNER JOIN cohorts ON users.cohort_id = cohorts.id 	INNER JOIN regions ON regions.id = cohorts.region_id LEFT JOIN volunteer_flags ON volunteer_flags.user_id = users.id RIGHT JOIN weeks ON volunteer_flags.week_id = weeks.id INNER JOIN modules ON weeks.module_id = modules.id WHERE weeks.id = $1 AND users.id = $2";
-            const result1 = await pool.query(query, [weekId, userId]);
+            const query = "SELECT CONCAT(regions.name, '-', cohorts.number) AS cohort, weeks.week_date, weeks.start_time, weeks.end_time, modules.name AS module FROM weeks INNER JOIN cohorts on weeks.cohort_id=cohorts.id INNER JOIN regions ON regions.id =cohorts.region_id INNER JOIN modules ON weeks.module_id = modules.id WHERE weeks.id = $1";
+            const result1 = await pool.query(query, [weekId]);
                 return res.status(200).json(result1.rows[0]);
             } catch (err) {
                 console.err(err);
