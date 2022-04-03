@@ -38,7 +38,7 @@ def make_file (table):
     case "users":
       # how we keep track of how many users we've generated
       usernames = [] # used to check if the username exists
-      current_cohort_number = 1 # used to track the current cohort number
+      current_cohort_number = 5 # used to track the current cohort number
       current_volunteers = 0 # used to check how many volunteers we've added per cohort
 
       file.write(f"INSERT INTO {table} (first_name, last_name, pass_hash, user_name, is_volunteer, cohort_id) \nVALUES \n") # Write the INSERT INTO statement 
@@ -91,7 +91,7 @@ def make_file (table):
           file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','}, 1 \n")
           next_week = next_week + datetime.timedelta(days = 7) # make a new date object based on the current week + 7 days
 
-    case "weeks2":
+    case "weeks":
       next_week = START_WEEK2 # have this copied so we don't mutate START_WEEK
       index = 0 # variable to keep track of each different module we insert 
       file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id, cohort_id) \nVALUES \n")
@@ -103,7 +103,7 @@ def make_file (table):
           file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','}, 2 \n")
           next_week = next_week + datetime.timedelta(days = 7) # make a new date object based on the current week + 7 days
 
-    case "weeks3":
+    case "weeks":
       next_week = START_WEEK3 # have this copied so we don't mutate START_WEEK
       index = 0 # variable to keep track of each different module we insert 
       file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id, cohort_id) \nVALUES \n")
@@ -115,7 +115,7 @@ def make_file (table):
           file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','}, 3 \n")
           next_week = next_week + datetime.timedelta(days = 7) # make a new date object based on the current week + 7 days
 
-    case "weeks4":
+    case "weeks":
       next_week = START_WEEK4 # have this copied so we don't mutate START_WEEK
       index = 0 # variable to keep track of each different module we insert 
       file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id, cohort_id) \nVALUES \n")
@@ -132,6 +132,3 @@ def make_file (table):
 make_file("users") # setting up the users.sql file
 make_file("cohorts") # setting up the cohorts.sql file
 make_file("weeks") # setting up the modules.sql file
-make_file("weeks2")
-make_file("weeks3")
-make_file("weeks4")
