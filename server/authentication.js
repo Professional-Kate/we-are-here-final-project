@@ -30,6 +30,7 @@ auth.get("/class/data", authentication("volunteer"), async (req, res) => {
 
 auth.post("/validate/volunteer", authentication("volunteer"));
 
+//This is trainee clock-in endpoint
 auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     const token = res.locals.token;
     const user = verify(
@@ -43,6 +44,7 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
         }
     );
     const userId = user.id;
+    const userCohort= user.cohort_id;
     const time = new Date(req.body.timeIn);
     const dateIn = time.getDate();
     const month = time.getMonth() + 1;
@@ -56,7 +58,7 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
 
     //checking if clock-in date matches class session date on database
     pool
-    .query("SELECT * FROM weeks WHERE week_date=$1", [fullDate])
+    .query("SELECT * FROM weeks WHERE week_date=$1 AND cohort_id=$2", [fullDate, userCohort])
     .then((result) => {
         if (result.rows.length !== 1) {
             return res.status(400).json({ msg: "Sorry, you don't have class today!" });
