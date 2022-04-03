@@ -8,12 +8,14 @@ import json # converting the returned response into JSON
 # variables for you to change how much data is generated
 TRAINEES_PER_CLASS = 30 # Change this to alter the amount of trainees you want per class
 VOLUNTEERS_PER_CLASS = 3 # change this to alter the amount of volunteers you want per class
-COHORTS_PER_REGION = 3 # for each region will make this many cohorts
-REGIONS = ["West Midlands", "Scotland", "London", "North West", "Rome", "Cape Town"]
+COHORTS_PER_REGION = 1 # for each region will make this many cohorts
+REGIONS = ["West Midlands", "Scotland", "London", "North West"]
 AMOUNT_OF_REGIONS = len(REGIONS)
 MODULES = {'Intro to Digital': 1, 'Fundamentals': 3, 'Induction and Git': 1, 'HTML/CSS': 4, 'Building a team': 1, 'JavaScript Core 1': 4, 'Communicating in the workplace': 1, 'JavaScript Core 2': 4, 'Presentation Skills': 1, 'JavaScript Core 3': 4, 'Specialization': 1, 'React': 4, 'Preparing for the Job Market': 1, 'Node.js': 3, 'Interview Skills': 1, 'Databases': 4, 'Working in Teams': 1, 'Final Projects': 4, 'Presentations and Demo Day': 1} # dictionary for each module. Key = module name, value = total weeks that module takes.
 START_WEEK = datetime.date(2022, 4, 2) # Should be the first week the course starts. format > YEAR, MONTH, DAY . All ints
-
+START_WEEK2 = datetime.date(2022, 5, 7) # for cohort 2
+START_WEEK3 = datetime.date(2022, 7, 9) # for cohort 3
+START_WEEK4 = datetime.date(2022, 9, 17) # for cohort 4
 path = os.path.join('./server/SQL/data') # directory for all the SQL files
 
 # getting random names from an API
@@ -80,13 +82,49 @@ def make_file (table):
     case "weeks":
       next_week = START_WEEK # have this copied so we don't mutate START_WEEK
       index = 0 # variable to keep track of each different module we insert 
-      file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id) \nVALUES \n")
+      file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id, cohort_id) \nVALUES \n")
 
       # looping through each key/value in the dict to add that many weeks to the file
       for key in MODULES:
         index += 1 # for every module increase index by one
         for i in range(1, MODULES[key] + 1):
-          file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','} \n")
+          file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','}, 1 \n")
+          next_week = next_week + datetime.timedelta(days = 7) # make a new date object based on the current week + 7 days
+
+    case "weeks2":
+      next_week = START_WEEK2 # have this copied so we don't mutate START_WEEK
+      index = 0 # variable to keep track of each different module we insert 
+      file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id, cohort_id) \nVALUES \n")
+
+      # looping through each key/value in the dict to add that many weeks to the file
+      for key in MODULES:
+        index += 1 # for every module increase index by one
+        for i in range(1, MODULES[key] + 1):
+          file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','}, 2 \n")
+          next_week = next_week + datetime.timedelta(days = 7) # make a new date object based on the current week + 7 days
+
+    case "weeks3":
+      next_week = START_WEEK3 # have this copied so we don't mutate START_WEEK
+      index = 0 # variable to keep track of each different module we insert 
+      file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id, cohort_id) \nVALUES \n")
+
+      # looping through each key/value in the dict to add that many weeks to the file
+      for key in MODULES:
+        index += 1 # for every module increase index by one
+        for i in range(1, MODULES[key] + 1):
+          file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','}, 3 \n")
+          next_week = next_week + datetime.timedelta(days = 7) # make a new date object based on the current week + 7 days
+
+    case "weeks4":
+      next_week = START_WEEK4 # have this copied so we don't mutate START_WEEK
+      index = 0 # variable to keep track of each different module we insert 
+      file.write(f"INSERT INTO {table} (week_date, start_time, end_time, module_id, cohort_id) \nVALUES \n")
+
+      # looping through each key/value in the dict to add that many weeks to the file
+      for key in MODULES:
+        index += 1 # for every module increase index by one
+        for i in range(1, MODULES[key] + 1):
+          file.write(f"('{next_week}', '10:00 AM', '04:00 PM', {index}){';' if key == 'Presentations and Demo Day' else ','}, 4 \n")
           next_week = next_week + datetime.timedelta(days = 7) # make a new date object based on the current week + 7 days
 
   file.close() # close the file
@@ -94,3 +132,6 @@ def make_file (table):
 make_file("users") # setting up the users.sql file
 make_file("cohorts") # setting up the cohorts.sql file
 make_file("weeks") # setting up the modules.sql file
+make_file("weeks2")
+make_file("weeks3")
+make_file("weeks4")
