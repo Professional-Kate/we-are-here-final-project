@@ -1,0 +1,27 @@
+.main-wrapper{
+/* TODO: background picture goes here*/
+}
+
+.main-container{
+   margin-right: 15px;
+  margin-left: 15px;
+  grid-area: content;
+  min-height: calc(100vh - 350px);
+  width: calc(100vw - 30px);
+
+ }
+ 
+   @media (min-width: 641px) {
+   .main-container{
+    margin-right: 30px;
+    margin-left: 30px;
+  }
+  }
+
+  @media (min-width: 1020px) {
+  .main-container{
+    max-width: 1020px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  }

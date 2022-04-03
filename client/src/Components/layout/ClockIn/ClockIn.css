@@ -1,3 +1,30 @@
 th, td{
-    border: 1px solid #000;
+
+    padding: 5px;
+    align-items: center;
+    text-align: center;
+}
+th{
+    border-bottom: 1px solid;
+}
+
+    tr:nth-child(even) {
+        background-color:rgb(236, 233, 233);
+    }
+
+.search-classes-form{
+    display: inline-flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.volunteer-clockin-table-wrapper{
+    width:calc(100vw - 200px);
+   
+    overflow: auto;
+}
+
+.volunteer-clockin-table{
+   
+    min-width: 1000px;
+  
 }

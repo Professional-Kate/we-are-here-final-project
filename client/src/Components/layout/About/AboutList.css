@@ -17,14 +17,19 @@ h2{
 
 /* description about we are here */
 .about_text{
-  margin-left: 2rem;
+  margin-top: 30px;
     font-size: 7mm;
     font-weight: 3rem;
     color: black;
-
+    word-break: break-word;
+    box-sizing: border-box;
+    width: 100%;
 }
-
-/* animation for text*/
+.about_list{
+  padding: 10px;
+  box-sizing: border-box;
+}
+/*animation for text*/
 .about_text{
   animation: slideleft 4s linear forwards;
 }
@@ -39,3 +44,10 @@ h2{
   }
 
 }
+@media (max-width: 641px) {
+ .about_list{
+  width: inherit;
+
+ 
+}
+  }

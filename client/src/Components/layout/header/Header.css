@@ -1,11 +1,18 @@
 .header__container{
   display: flex;
   justify-content: space-between;
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
 }
 h1{
+  
   margin-top: 5px;
+  -webkit-box-reflect: below -12px linear-gradient(
+    transparent, rgba(236, 2, 2, 0.2)
+  ) ;
+
+ 
 }
+
 .log__out{
   margin-top: 10px;
 }
