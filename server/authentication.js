@@ -70,19 +70,27 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
             return res.status(400).json({ msg: "Sorry, There is no class to join!" });
         } else {
             const weekId = result.rows[0].id;
-            const query = "INSERT INTO volunteer_flags (clockin_time, user_id, week_id) VALUES($1, $2, $3)";
-            const valueArr = [time, userId, weekId];
-            if (hourIn === 9 && minutesIn >= 45 || hourIn === 10 && minutesIn <= 15) {
-             //registering trainee clock-in time to database
-                pool
-                    .query(query, valueArr)
-                    .then(() => res.status(200).json({ msg: "Thank you for joining the class" }));
-            } else if (hourIn === 10 && minutesIn > 15 || hourIn > 10 || hourIn === 14 && minutesIn <= 59) {
-                //registering trainee's late clock-in time to database
-                pool
-                    .query(query, valueArr)
-                    .then(() => res.status(200).json({ msg: "You are late today." }));
-            }
+            pool//checking if trainee has already clocked in or not
+            .query("SELECT clockin_time from volunteer_flags WHERE user_id=$1 AND week_id=$2", [userId, weekId])
+            .then((result1) => {
+                if (result1.rows.length > 0) {
+                    return res.status(400).json({ msg: "You have already clocked in." });
+                } else {
+                    const query = "INSERT INTO volunteer_flags (clockin_time, user_id, week_id) VALUES($1, $2, $3)";
+                    const valueArr = [time, userId, weekId];
+                    if (hourIn === 9 && minutesIn >= 45 || hourIn === 10 && minutesIn <= 15) {
+                        //registering trainee clock-in time to database
+                        pool
+                            .query(query, valueArr)
+                            .then(() => res.status(200).json({ msg: "Thank you for joining the class" }));
+                    } else if (hourIn === 10 && minutesIn > 15 || hourIn > 10 || hourIn === 14 && minutesIn <= 59) {
+                        //registering trainee's late clock-in time to database
+                        pool
+                            .query(query, valueArr)
+                            .then(() => res.status(200).json({ msg: "You are late today." }));
+                    }
+                }
+            });
         }
     })
     .catch((error) => console.log(error));
