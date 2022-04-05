@@ -1,7 +1,7 @@
 .header__container{
   display: flex;
   justify-content: space-between;
-  margin-top: 0.8rem;
+  padding-top: 0.8rem;
 }
 h1{
   

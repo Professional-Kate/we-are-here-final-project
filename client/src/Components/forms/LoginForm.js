@@ -43,7 +43,7 @@ function LoginForm() {
 					if (data.isVolunteer) {
 						navigate("/management");
 					} else {
-						navigate("/clockin");
+						navigate("/clockin/");
 					}
 				})
 				.catch((error) => setErrors({ password: error.message }));
