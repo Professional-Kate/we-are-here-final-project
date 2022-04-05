@@ -37,7 +37,7 @@ router.post("/signup", async (req, res) => {
 				) {
 					res
 						.status(400)
-						.send("Password or username must have 6 or more characters!");
+						.send("Password or username\n must have 6 or more characters!");
 					//ensuring all fields are completed
 				} else if (newUser.firstName && newUser.lastName) {
 					const query =

@@ -96,16 +96,6 @@ function LoginForm() {
 							value={details.password}
 						/>
 					</div>
-
-					<p className="form__error">{errors.password}</p>
-					<input
-						type="submit"
-						onClick={submitHandler}
-						value="Sign In"
-						className="btn"
-						src="/ClockIn/this/site"
-					/>
-
 					<i
 						className="show-password bi bi-x-diamond-fill"
 						role="button"
@@ -119,6 +109,16 @@ function LoginForm() {
 					>
 						Show
 					</i>
+
+					<p className="form__error">{errors.password}</p>
+					<input
+						type="submit"
+						onClick={submitHandler}
+						value="Sign In"
+						className="btn"
+						src="/ClockIn/this/site"
+					/>
+
 					<div>
 						<p id="new-user-heading" className="new-account-heading">
 							Sign in or{" "}
