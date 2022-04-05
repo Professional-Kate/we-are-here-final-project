@@ -1,4 +1,4 @@
-import { json, Router } from "express";
+import { Router } from "express";
 import { authentication } from "./middleware";
 import cors from "cors";
 import pool from "./db";
@@ -105,7 +105,7 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
                                     .then(() => res.status(200).json({ msg: "You are late today." }));
                             }
                         }
-                    })
+                    });
             }
         })
         .catch((error) => console.log(error));
