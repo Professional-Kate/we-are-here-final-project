@@ -8,7 +8,6 @@ const auth = Router();
 auth.use(cors());
 
 // Will run before every endpoint starting with /validate
-auth.post("/validate/volunteer", authentication("volunteer"));
 auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) => {
     const token = res.locals.token;
     const user = verify(
@@ -46,8 +45,6 @@ auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) =
     }
 });
 
-auth.get("/validate/volunteer", authentication("volunteer"));
-auth.get("/validate/trainee", authentication("trainee"));
 // returning of current class data. Need to be a volunteer to access this
 auth.get("/class/data", authentication("volunteer"), async (req, res) => {
   const { cohort_id } = res.locals.token;
@@ -65,6 +62,10 @@ auth.get("/class/data", authentication("volunteer"), async (req, res) => {
   rows.length === 0 ? res.status(200).json({}) : res.status(200).json({ ...rows[0], users: usersData.rows });
 });
 
+auth.post("/validate/volunteer", authentication("volunteer"));
+
+//This is trainee clock-in endpoint
+
 auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     const token = res.locals.token;
     const user = verify(
@@ -78,6 +79,7 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
         }
     );
     const userId = user.id;
+    const userCohort= user.cohort_id;
     const time = new Date(req.body.timeIn);
     const dateIn = time.getDate();
     const month = time.getMonth() + 1;
@@ -91,44 +93,42 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
 
     //checking if clock-in date matches class session date on database
     pool
-        .query("SELECT * FROM weeks WHERE week_date=$1", [fullDate])
-        .then((result) => {
-            if (result.rows.length !== 1) {
-                return res.status(400).json({ msg: "Sorry, you don't have class today!" });
-            } else if (hourIn < 9 || hourIn === 9 && minutesIn < 45) {
-                return res.status(400).json({ msg: "Sorry, you are early. Please come later." });
-            } else if (hourIn === 15 && minutesIn >= 1) {
-                return res.status(400).json({ msg: "Sorry, you cannot join. The class is about to finish" });
-            } else if (hourIn > 16 || hourIn === 16 && minutesIn >= 1) {
-                return res.status(400).json({ msg: "Sorry, There is no class to join!" });
-            } else {
-                const weekId = result.rows[0].id;
-                //Checking if the trainee has already clocked in or not
-                const queryCheck = "SELECT user_id FROM volunteer_flags WHERE week_id=$1 AND user_id=$2";
-                pool
-                    .query(queryCheck, [weekId, userId])
-                    .then((result1) => {
-                        if (result1.rows.length >= 1) {
-                            return res.status(400).json({ msg: "You have already clocked in." });
-                        } else {
-                            const query = "INSERT INTO volunteer_flags (clockin_time, user_id, week_id) VALUES($1, $2, $3)";
-                            const valueArr = [time, userId, weekId];
-                            if (hourIn === 9 && minutesIn >= 45 || hourIn === 10 && minutesIn <= 15) {
-                                //registering trainee clock-in time to database
-                                pool
-                                    .query(query, valueArr)
-                                    .then(() => res.status(200).json({ msg: "Thank you for joining the class" }));
-                            } else if (hourIn === 10 && minutesIn > 15 || hourIn > 10 || hourIn === 14 && minutesIn <= 59) {
-                                //registering trainee's late clock-in time to database
-                                pool
-                                    .query(query, valueArr)
-                                    .then(() => res.status(200).json({ msg: "You are late today." }));
-                            }
-                        }
-                    });
-            }
-        })
-        .catch((error) => console.log(error));
+    .query("SELECT * FROM weeks WHERE week_date=$1 AND cohort_id=$2", [fullDate, userCohort])
+    .then((result) => {
+        if (result.rows.length !== 1) {
+            return res.status(400).json({ msg: "Sorry, you don't have class today!" });
+        } else if (hourIn < 9 || hourIn === 9 && minutesIn < 45) {
+            return res.status(400).json({ msg: "Sorry, you are early. Please come later." });
+        } else if (hourIn === 15 && minutesIn >= 1) {
+            return res.status(400).json({ msg: "Sorry, you cannot join. The class is about to finish" });
+        } else if (hourIn > 16 || hourIn === 16 && minutesIn >= 1) {
+            return res.status(400).json({ msg: "Sorry, There is no class to join!" });
+        } else {
+            const weekId = result.rows[0].id;
+            pool//checking if trainee has already clocked in or not
+            .query("SELECT clockin_time from volunteer_flags WHERE user_id=$1 AND week_id=$2", [userId, weekId])
+            .then((result1) => {
+                if (result1.rows.length > 0) {
+                    return res.status(400).json({ msg: "You have already clocked in." });
+                } else {
+                    const query = "INSERT INTO volunteer_flags (clockin_time, user_id, week_id) VALUES($1, $2, $3)";
+                    const valueArr = [time, userId, weekId];
+                    if (hourIn === 9 && minutesIn >= 45 || hourIn === 10 && minutesIn <= 15) {
+                        //registering trainee clock-in time to database
+                        pool
+                            .query(query, valueArr)
+                            .then(() => res.status(200).json({ msg: "Thank you for joining the class" }));
+                    } else if (hourIn === 10 && minutesIn > 15 || hourIn > 10 || hourIn === 14 && minutesIn <= 59) {
+                        //registering trainee's late clock-in time to database
+                        pool
+                            .query(query, valueArr)
+                            .then(() => res.status(200).json({ msg: "You are late today." }));
+                    }
+                }
+            });
+        }
+    })
+    .catch((error) => console.log(error));
 });
 
            
