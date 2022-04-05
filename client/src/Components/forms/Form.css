@@ -1,3 +1,9 @@
+select{
+   width: 11.9rem;
+
+}
+
+
 body{
   background: linear-gradient(to right, #d1b9b9, #8b2828);
 }
@@ -34,16 +40,7 @@ margin-top: 5rem;
 .show-password{
   cursor: pointer;
   position: relative;
-  left:4.5rem;
-  bottom: 3rem;
-  font-size: 3mm;
-  color: rgb(119, 117, 117);
-}
-
-.signup_form .show-password{
-  cursor: pointer;
-  position: relative;
-  left:79%;
+  left:9rem;
   bottom: 1.8rem;
   font-size: 3mm;
   color: rgb(119, 117, 117);
