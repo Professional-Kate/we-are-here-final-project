@@ -8,9 +8,43 @@ const auth = Router();
 auth.use(cors());
 
 // Will run before every endpoint starting with /validate
+auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) => {
+    const token = res.locals.token;
+    const user = verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        (err, decoded) => {
+            if (!err) {
+                return decoded;
+            }
+            return "Token is not valid";
+        }
+    );
+    const cohortId = user.cohort_id;
+    const time = new Date();
+    const dateIn = time.getDate();
+    const month = time.getMonth() + 1;
+    const year = time.getFullYear();
+    function pad(n) {
+        return n < 10 ? "0" + n : n;
+    }
+    const fullDate = `${year}-${pad(month)}-${pad(dateIn)}`;
+    //checking if there is an ongoing class for the user's cohort
+    const result = await pool.query("SELECT id, cohort_id FROM weeks WHERE cohort_id=$1 AND week_date=$2", [cohortId, fullDate]);
+    if (result.rows.length !== 1) {
+        return res.status(200).json({});
+    } else {
+        try {
+            const weekId = result.rows[0].id;
+            const query = "SELECT CONCAT(regions.name, '-', cohorts.number) AS cohort, weeks.week_date, weeks.start_time, weeks.end_time, modules.name AS module FROM weeks INNER JOIN cohorts on weeks.cohort_id=cohorts.id INNER JOIN regions ON regions.id =cohorts.region_id INNER JOIN modules ON weeks.module_id = modules.id WHERE weeks.id = $1";
+            const result1 = await pool.query(query, [weekId]);
+                return res.status(200).json(result1.rows[0]);
+            } catch (err) {
+                console.err(err);
+            }
+    }
+});
 
-auth.get("/validate/volunteer", authentication("volunteer"));
-auth.get("/validate/trainee", authentication("trainee"));
 // returning of current class data. Need to be a volunteer to access this
 auth.get("/class/data", authentication("volunteer"), async (req, res) => {
   const { cohort_id } = res.locals.token;
@@ -31,6 +65,7 @@ auth.get("/class/data", authentication("volunteer"), async (req, res) => {
 auth.post("/validate/volunteer", authentication("volunteer"));
 
 //This is trainee clock-in endpoint
+
 auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     const token = res.locals.token;
     const user = verify(
@@ -95,5 +130,6 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     })
     .catch((error) => console.log(error));
 });
-export default auth;
 
+           
+export default auth;
