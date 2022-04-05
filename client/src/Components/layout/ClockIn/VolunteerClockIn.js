@@ -15,7 +15,7 @@ const reactData = {
 			absent: true,
 		},
 		{
-			firstName: "mo",
+			firstName: "tenzyn",
 			lastName: "khan",
 			leftEarly: true,
 			cameraOff: true,
@@ -23,7 +23,7 @@ const reactData = {
 			absent: true,
 		},
 		{
-			firstName: "uzma",
+			firstName: "kate",
 			lastName: "khan",
 			leftEarly: true,
 			cameraOff: true,
@@ -31,7 +31,7 @@ const reactData = {
 			absent: true,
 		},
 		{
-			firstName: "mo",
+			firstName: "georgina",
 			lastName: "khan",
 			leftEarly: true,
 			cameraOff: true,
@@ -42,8 +42,6 @@ const reactData = {
 };
 
 function VolunteerClockIn() {
-	// data to data base
-
 	const [cohortClass, setCohortClass] = useState(reactData);
 	console.log(cohortClass);
 	const [trainees, setTrainees] = useState(reactData.trainees);
@@ -58,17 +56,12 @@ function VolunteerClockIn() {
 	}, []);
 	console.log(cohorts);
 	const [searchValues, setSearchValues] = useState({
-		// null will be based on token
+
 		cohort_id: 0,
 		date: dayjs(new Date()).format("YYYY-MM-DD"),
 	});
 	const onSearchClass=()=>{
 		fetch("api/class/data"
-		//,{}
-			// method: "",
-			// headers: { "Content-Type": "application/json" },
-			// credentials: "include",
-			// body: JSON.stringify(searchValues)
 )
 			.then((response) => {
 				if (response.status >= 200 && response.status <= 209) {
@@ -131,7 +124,7 @@ function VolunteerClockIn() {
 						);
 					})}
 				</select>
-				{/* </div> */}
+
 				<input
 					type="date"
 					value={searchValues.date}
@@ -154,7 +147,7 @@ function VolunteerClockIn() {
 						</tr>
 					</thead>
 					<tbody>
-						{/* onChange handler */}
+
 						{trainees.map((trainee, i) => {
 							return (
 								<tr key={trainee.firstName}>

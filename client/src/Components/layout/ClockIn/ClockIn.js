@@ -1,4 +1,3 @@
-// import { response } from "express";
 import React from "react";
 import "./ClockIn.css";
 
@@ -22,8 +21,6 @@ function ClockIn() {
 		<div>
             <h2>Module</h2>
 			<button onClick={handleClockIn}>ClockIn</button>
-
-            {/* <h2>ClockIn Page</h2> */}
 		</div>
 	);
 }
