@@ -1,12 +1,12 @@
-import { Header } from "../header/Header";
-import LogOut from "../LogOut/LogOut";
+import  Header from "../header/Header";
+import "./Home.css";
 
 
 export function Home() {
 	return (
-		<div>
-			<LogOut />
-			<Header />;
+		<div className="home__page">
+			<Header />
+			<hr className="header_line" size="5" />
 		</div>
 	);
 }

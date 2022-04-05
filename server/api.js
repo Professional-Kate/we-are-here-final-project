@@ -11,6 +11,7 @@ router.get("/users", (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
+	console.log(req.body.cohortId, req.body.isVolunteer);
 	try {//this hides the password
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		const newUser = {
