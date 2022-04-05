@@ -1,0 +1,8 @@
+
+.logout-btn{
+   cursor: pointer;
+   box-shadow: 0px 20px 30px rgba(37, 36, 36, 0.5);
+   background:linear-gradient(to right, #d38989, #d12f2f);
+
+
+}

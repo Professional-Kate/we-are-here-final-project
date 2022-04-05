@@ -1,110 +1,71 @@
-
 body{
-  background-image: url('https://thumbs.dreamstime.com/b/binary-splash-screen-3164079.jpg');
-  backdrop-filter: blur(2px);
-  background-repeat: no-repeat;
-  background-size: 100%; 
+  background: linear-gradient(to right, #d1b9b9, #8b2828);
+}
+
+.middle__section{
+  width: calc(100vw - 200px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: max-content;
   
+  box-sizing: border-box;
+}
+.about__text{
+margin-top: 5rem;
+}  
+
+.form__container{
+ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.7rem;
 }
 
 
-  /* logo */
-.logo-header {
-  position: absolute;
-  left: 8px;
-  top: 5px;
+.signup_form{
+  margin: 0 auto;
 }
+
 
 
 /* show and hide password*/
 .show-password{
   cursor: pointer;
   position: relative;
-  left:130px;
-  bottom: 25px;
-  font-size: 11px;
+  left:4.5rem;
+  bottom: 3rem;
+  font-size: 3mm;
   color: rgb(119, 117, 117);
 }
 
-/* heading of we are here */
-h2{
-    margin-top: 2rem;
-    margin-left: 2rem;
-    font-weight:600;
-    font-size:5rem;
-    color: black;  
-}
-
-/* animation for H2*/
-h2{
-  animation: slideleft 4s linear forwards;
-}
-@keyframes slideleft{
-  0%{
-    transform: translate(100px);
-    opacity: 0;
-  }
-  100%{
-    transform: translate(0px);
-    opacity: 1;
-  }
-
-}
-
-
-/* description about we are here */
-.about_text{
-  margin-left: 2rem;
-    font-size: 7mm;
-    font-weight: 3rem;
-    color: black;
-
-}
-
-/* animation for text*/
-.about_text{
-  animation: slideleft 4s linear forwards;
-}
-@keyframes slideleft{
-  0%{
-    transform: translate(100px);
-    opacity: 0;
-  }
-  100%{
-    transform: translate(0px);
-    opacity: 1;
-  }
-
-}
-
-/* sign in or create an account "text" */
-#new-user-heading{
-  font-size: 6mm;
-  font-weight: 3rem;
-  color: black;
+.signup_form .show-password{
+  cursor: pointer;
   position: relative;
-  top: 5rem;
-  left: 60%;
-
+  left:79%;
+  bottom: 1.8rem;
+  font-size: 3mm;
+  color: rgb(119, 117, 117);
 }
+
 
 /*errors for empty inputs*/
 .form__error{
-    color:red;
+    color:rgb(155, 27, 27);
 }
 
 .signup_form{
-    position:right;
-    text-align: center;
+    display: grid;
+    justify-content: center;
+
 }
 .form-inner{
-    position: relative;
-    top: 4rem;
-    left:60%;
     width: fit-content;
     background: silver;
     border-radius: 1rem;
     padding:1rem 3rem;
+     box-shadow: 0px 30px 60px  rgba(7, 7, 7, 0.5);
 }
 .form-group{
   display:flex;
@@ -122,8 +83,28 @@ label, input{
 }
 
 .btn{
-  background-color: red;
+  background-color: rgb(31, 152, 228);
   color: white;
   cursor: pointer;
   margin-left: auto;
 }
+
+.radio{
+  margin: 0.2rem;
+  
+}
+
+ @media (max-width: 641px) {
+ .middle__section{
+width: inherit;
+  grid-template-columns: max-content;
+  grid-template-rows: max-content max-content;
+  gap: 20px;
+}
+  }
+
+  @media (min-width: 1020px) {
+  
+   
+  
+  }
