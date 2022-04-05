@@ -1,12 +1,11 @@
- .logout-button{
-    position: absolute;
-    width: 8rem;
-    height: 12rem;
-    top: -4rem;
-    right: 1rem;
-    display: flex;
-
-    /* to center the text */
-    justify-content: center;
-    align-items: center;
- }
+.header__container{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+h1{
+  margin-top: 5px;
+}
+.log__out{
+  margin-top: 10px;
+}

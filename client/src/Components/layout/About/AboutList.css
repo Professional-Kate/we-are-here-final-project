@@ -1,0 +1,41 @@
+/* animation for H2*/
+h2{
+  animation: slideleft 4s linear forwards;
+}
+@keyframes slideleft{
+  0%{
+    transform: translate(100px);
+    opacity: 0;
+  }
+  100%{
+    transform: translate(0px);
+    opacity: 1;
+  }
+
+}
+
+
+/* description about we are here */
+.about_text{
+  margin-left: 2rem;
+    font-size: 7mm;
+    font-weight: 3rem;
+    color: black;
+
+}
+
+/* animation for text*/
+.about_text{
+  animation: slideleft 4s linear forwards;
+}
+@keyframes slideleft{
+  0%{
+    transform: translate(100px);
+    opacity: 0;
+  }
+  100%{
+    transform: translate(0px);
+    opacity: 1;
+  }
+
+}

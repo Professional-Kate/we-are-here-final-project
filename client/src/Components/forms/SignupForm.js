@@ -7,7 +7,7 @@ import "./Form.css";
 function SignupForm() {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const initialDetails = {
-		role: "",
+		isVolunteer: "",
 		firstName: "",
 		lastName: "",
 		cohortId: "",
@@ -40,7 +40,7 @@ function SignupForm() {
 				lastName: details.lastName,
 				username: details.username,
 				password: details.password,
-				isVolunteer: details.role === "Trainee" ? false : true,
+				isVolunteer: details.isVolunteer === "Trainee" ? true : false,
 				cohortId: +details.cohortId,
 			};
 			fetch("api/signup", {
@@ -71,7 +71,7 @@ function SignupForm() {
 			document.getElementById("trainee").checked == false &&
 			document.getElementById("volunteer").checked == false
 		) {
-			errors.role = "A role must be selected";
+			errors.isVolunteer = "A role must be selected";
 		}
 		if (!details.firstName) {
 			errors.firstName = "First name is required";
@@ -96,11 +96,11 @@ function SignupForm() {
 		}
 		return errors;
 	};
-
+console.log(details.cohortId);
 	return (
 		<section className="signup_form">
 			<div>
-					<p id="new-user-heading" className="new-account-heading">
+					<p id="new-user-heading-signup" className="new-account-heading">
 						Have an account? {" "}
 						<Link className="create-link" to="/">
 							Sign in
@@ -114,7 +114,7 @@ function SignupForm() {
 						<div className="roles">
 							<div className="trainee__radio">
 								<input
-									onChange={(e) => setDetails({ ...details, role: e.target.value })}
+									onChange={(e) => setDetails({ ...details, isVolunteer: e.target.value })}
 									type="radio"
 									id="trainee"
 									name="role"
@@ -123,7 +123,7 @@ function SignupForm() {
 							</div>
 							<div className="volunteer__radio">
 								<input
-									onChange={(e) => setDetails({ ...details, role: e.target.value })}
+									onChange={(e) => setDetails({ ...details, isVolunteer: e.target.value })}
 									type="radio"
 									id="volunteer"
 									name="role"
@@ -160,11 +160,15 @@ function SignupForm() {
 					<p className="form__error">{errors.lastName}</p>
 					<div className="form-group">
 						<label htmlFor="cohort">Cohort:</label>
-						<select value="Select a cohort" onChange={(e) => setDetails({ ...details, cohortId: e.target.value.split(".")[0] })} id="cohort">
+						<select
+						onChange={(e) => setDetails({ ...details, cohortId: e.target.value.split(".")[0] })}
+						id="cohort">
 							<option className="cohort" disabled>Select a cohort</option>
 							{cohorts.map((cohort) => {
 								const regionCohort = cohort.cohort_id +". " + cohort.region_name + "-" + cohort.cohort_number;
-								return <option key={cohort.cohort_id} className="traineeClass" value={regionCohort}>
+								return <option key={cohort.cohort_id}
+								className="traineeClass"
+								value={regionCohort}>
 									{regionCohort}
 								</option>;
 							})
