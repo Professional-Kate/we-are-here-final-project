@@ -1,26 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import zoomLogo from "../../../assets/Zoom-logo.png";
 import "./ClockIn.css";
 
+function ClockIn({ state }) {
+    state(false);
+    const [clockedIn, setClockedIn] = useState(false);
 
-
-function ClockIn() {
-
-    const handleClockIn = async () =>{
-        const time = new Date();
-      await fetch("api/validate/trainee",{
-           method:"post",
-           headers: { "Content-Type" :"application/json" },
-           credentials:"include",
-           body:JSON.stringify(time),
-       });
-
-
-        throw "Clocked in Successful";
-    };
   return (
-		<div>
-            <h2>Module</h2>
-			<button onClick={handleClockIn}>ClockIn</button>
+		<div className="clockin">
+            <h2 className="clockin-header">WM3 Demo Day!</h2>
+			<button className="btn clockin-button" onClick={() => setClockedIn(true)}>Clock in!</button>
+            { clockedIn && <div><h2 className="clockin-headerTwo">Welcome to class!</h2><img src={zoomLogo} alt="zoom-logo" className="clockin-picture" /></div> }
 		</div>
 	);
 }

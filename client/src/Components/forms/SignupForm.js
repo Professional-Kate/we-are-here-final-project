@@ -266,12 +266,15 @@ console.log(details.cohortId);
 					Show
 				</i>
 				<p className="form__error">{errors.confirmPassword}</p>
-				<input
+				{/* <input
 					type="submit"
 					onClick={submitHandler}
 					value="Submit"
 					className="btn"
-				/>
+				/> */}
+					<Link className="create-link btn" to="/">
+							Submit
+						</Link>
 				<div>
 					<p id="new-user-heading-signup" className="new-account-heading">
 						Have an account?{" "}

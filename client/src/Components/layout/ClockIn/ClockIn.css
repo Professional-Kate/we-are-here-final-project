@@ -1,3 +1,30 @@
+.clockin {
+    padding-top: 8rem;
+    text-align: center;
+}
+
+.clockin-header, .clockin-headerTwo {
+    font-size: 3rem;
+}
+
+.clockin-headerTwo {
+    padding-top: 2rem;
+}
+
+.clockin-button { 
+    margin-top: 2rem;
+    padding: 1rem 3rem;
+    font-size: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.clockin-picture {
+    padding-top: 2rem;
+    width: 10rem;
+    height: auto;
+    cursor: pointer;
+}
+
 th, td{
 
     padding: 5px;

@@ -2,7 +2,7 @@ import React from "react";
 import "./Header.css";
 import cyfLogo from "../../../assets/CYF-Logo-No-BG.png";
 import LogOut from "../LogOut/LogOut";
- const Header = () => {
+ const Header = ( { state  } ) => {
 	return (
 		<div className="container header__container" id="home">
 			<header className="header-navbar">
@@ -18,7 +18,7 @@ import LogOut from "../LogOut/LogOut";
 			<div>
 				<h1>WE ARE HERE</h1>
 			</div>
-			<div className="log__out">
+			<div className="log__out" onClick={() => state(true)}>
 				<LogOut />
 			</div>
 		</div>

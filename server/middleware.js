@@ -39,7 +39,6 @@ export const pushStateRouting = (apiRoot, staticDir) => (req, res, next) => {
 
 // middleware function that authenticates users based on the req.headers
 export const authentication = (userType) => (req, res, next) => {
-	// message templates to make life a tad easier
 	const failureMessage = {
 		success: false,
 		message: "Trainee's aren't authorized to view this page.",
@@ -52,7 +51,6 @@ export const authentication = (userType) => (req, res, next) => {
 	}
 
 	const token = bearerToken.split(" ")[1]; // only getting the token string from the header
-
 	res.locals.token = token;
 
 	// verify the token
