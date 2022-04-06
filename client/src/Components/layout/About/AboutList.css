@@ -1,5 +1,5 @@
 /* animation for H2*/
-h2{
+.animation {
   animation: slideleft 4s linear forwards;
 }
 @keyframes slideleft{
@@ -18,12 +18,13 @@ h2{
 /* description about we are here */
 .about_text{
   margin-top: 30px;
-    font-size: 7mm;
+    font-size: 2rem;
     font-weight: 3rem;
-    color: black;
+    color: hsl(0, 0%, 100%);
     word-break: break-word;
     box-sizing: border-box;
     width: 100%;
+    text-align: center;
 }
 .about_list{
   padding: 10px;

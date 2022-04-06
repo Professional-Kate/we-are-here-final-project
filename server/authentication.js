@@ -2,25 +2,14 @@ import { Router } from "express";
 import { authentication } from "./middleware";
 import cors from "cors";
 import pool from "./db";
-import { verify } from "jsonwebtoken";
 
 const auth = Router();
 auth.use(cors());
 
 // Will run before every endpoint starting with /validate
-auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) => {
+auth.get("/trainee/ongoinglass", authentication("trainee"), async (req, res) => {
     const token = res.locals.token;
-    const user = verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err, decoded) => {
-            if (!err) {
-                return decoded;
-            }
-            return "Token is not valid";
-        }
-    );
-    const cohortId = user.cohort_id;
+    const cohortId = token.cohort_id;
     const time = new Date();
     const dateIn = time.getDate();
     const month = time.getMonth() + 1;
@@ -46,9 +35,11 @@ auth.get("/trainee/ongoing-class", authentication("trainee"), async (req, res) =
 });
 
 // returning of current class data. Need to be a volunteer to access this
-auth.get("/class/data", authentication("volunteer"), async (req, res) => {
-  const { cohort_id } = res.locals.token;
-  const { date } = req.body; // date is sent from the frontend
+auth.post("/class/data", authentication("volunteer"), async (req, res) => {
+    const { cohort_id } = res.locals.token;
+    const { date } = req.body; // date is sent from the frontend
+    console.log(cohort_id);
+
   const firstQuery = "WITH weeks AS (SELECT modules.name AS module_name, weeks.week_date, weeks.start_time, weeks.end_time FROM modules INNER JOIN weeks ON weeks.module_id = modules.id), cohorts AS (SELECT cohorts.number AS cohort_number, regions.name AS region_name FROM cohorts INNER JOIN regions ON regions.id = cohorts.region_id) SELECT * FROM weeks, cohorts WHERE cohorts.region_name = $1 AND cohorts.cohort_number = $2 AND weeks.week_date = $3;";
 
   const secondQuery = "SELECT users.id, CONCAT(users.first_name, ' ', users.last_name) AS name, volunteer_flags.clockin_time, volunteer_flags.left_early, volunteer_flags.no_webcam, volunteer_flags.low_participation, volunteer_flags.absent FROM volunteer_flags FULL OUTER JOIN users ON users.id = volunteer_flags.user_id WHERE users.cohort_id = $1 AND users.is_volunteer = false;";
@@ -62,24 +53,11 @@ auth.get("/class/data", authentication("volunteer"), async (req, res) => {
   rows.length === 0 ? res.status(200).json({}) : res.status(200).json({ ...rows[0], users: usersData.rows });
 });
 
-auth.post("/validate/volunteer", authentication("volunteer"));
-
 //This is trainee clock-in endpoint
-
 auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     const token = res.locals.token;
-    const user = verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err, decoded) => {
-            if (!err) {
-                return decoded;
-            }
-            return "Token is not valid";
-        }
-    );
-    const userId = user.id;
-    const userCohort= user.cohort_id;
+    const userId = token.id;
+    const userCohort= token.cohort_id;
     const time = new Date(req.body.timeIn);
     const dateIn = time.getDate();
     const month = time.getMonth() + 1;
@@ -131,5 +109,5 @@ auth.post("/validate/trainee", authentication("trainee"), (req, res) => {
     .catch((error) => console.log(error));
 });
 
-           
+
 export default auth;

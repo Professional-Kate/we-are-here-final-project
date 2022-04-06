@@ -5,6 +5,7 @@ import AboutList from "../layout/About/AboutList";
 import "./Form.css";
 
 function LoginForm() {
+
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const initialDetails = {
 		userName: "",
@@ -41,9 +42,9 @@ function LoginForm() {
 				.then((data) => {
 					localStorage.setItem("token", data.accessToken);
 					if (data.isVolunteer) {
-						navigate("/management");
+						navigate("/volunteer");
 					} else {
-						navigate("/clockin/");
+						navigate("/clockin");
 					}
 				})
 				.catch((error) => setErrors({ password: error.message }));

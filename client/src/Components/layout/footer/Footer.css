@@ -3,13 +3,13 @@
 	color: white;
 	position: relative;
 	height: 12rem;
-	margin-top: 20px;
+	margin-top: 65px;
 }
 
 .footer__title {
 	font-size: 5mm;
 	font-weight: 500;
-	margin-bottom:1rem;
+	padding-bottom:1rem;
 	color: white;
 }
 
